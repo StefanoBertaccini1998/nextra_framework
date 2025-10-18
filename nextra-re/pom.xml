@@ -8,6 +8,7 @@
         <groupId>com.nextra</groupId>
         <artifactId>nextra</artifactId>
         <version>0.1.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>nextra-re</artifactId>
@@ -19,6 +20,7 @@
         <dependency>
             <groupId>com.nextra</groupId>
             <artifactId>nextra-core</artifactId>
+            <scope>test</scope>
             <version>0.1.0</version>
         </dependency>
 
