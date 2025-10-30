@@ -1,4 +1,8 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    import: optional:application-${spring.profiles.active}.yml
   application:
     name: nextra-core
   profiles:

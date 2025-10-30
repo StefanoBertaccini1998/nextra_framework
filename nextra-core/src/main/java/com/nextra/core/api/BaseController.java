@@ -26,10 +26,10 @@ public abstract class BaseController<T, ID> {
 
     // 🔹 CREATE
     @PostMapping
-    public ResponseEntity<T> create(@RequestBody T entity) {
+    public ResponseEntity<ApiResponse<T>> create(@RequestBody T entity) {
         log.info("➡️ [POST] Creating entity: {}", entity);
         T saved = service.save(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok(saved));
     }
 
     // 🔹 READ ALL (paginated or not)
@@ -38,50 +38,55 @@ public abstract class BaseController<T, ID> {
         log.info("➡️ [GET] Fetching all entities");
         Page<T> page = service.findAll(pageable);
         if (page.getContent().isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(ApiResponse.error("No data found"));
         }
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(ApiResponse.ok(page));
     }
 
     // 🔹 READ BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<T> getById(@PathVariable ID id) {
+    public ResponseEntity<ApiResponse<T>> getById(@PathVariable ID id) {
         log.info("➡️ [GET] Fetching entity with id: {}", id);
         Optional<T> entity = service.findById(id);
-        return entity.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return entity.map(value ->
+                        ResponseEntity.ok(ApiResponse.ok(value)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(ApiResponse.error("Entity not found")));
     }
 
     // 🔹 UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<T> update(@PathVariable ID id, @RequestBody T entity) {
+    public ResponseEntity<ApiResponse<T>> update(@PathVariable ID id, @RequestBody T entity) {
         log.info("➡️ [PUT] Updating entity with id: {}", id);
         T updated = service.update(id, entity);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(ApiResponse.ok(updated));
     }
 
     // 🔹 DELETE (soft delete)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable ID id) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable ID id) {
         log.warn("➡️ [DELETE] Soft deleting entity with id: {}", id);
         service.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.ok(null));
     }
 
     // 🔹 RESTORE (if supported)
     @PatchMapping("/{id}/restore")
-    public ResponseEntity<Void> restore(@PathVariable ID id) {
+    public ResponseEntity<ApiResponse<Void>> restore(@PathVariable ID id) {
         log.info("➡️ [PATCH] Restoring entity with id: {}", id);
         try {
             var method = service.getClass().getMethod("restore", id.getClass());
             method.invoke(service, id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(ApiResponse.ok(null));
         } catch (NoSuchMethodException e) {
             log.error("Restore not supported for entity type {}", service.getClass());
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
+                    .body(ApiResponse.error("Restore not supported for this entity"));
         } catch (Exception e) {
             log.error("Error restoring entity: {}", e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Error restoring entity"));
         }
     }
 }
