@@ -47,13 +47,6 @@ public class PropertyController extends BaseController<Property, Long> {
         return ResponseEntity.ok(ApiResponse.ok(propertyService.findByPriceRange(min, max)));
     }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<PropertyResponse>> create(@Valid @RequestBody PropertyRequest dto) {
-        Property entity = toEntity(dto);
-        Property saved = propertyService.save(entity);
-        return ResponseEntity.ok(ApiResponse.ok(toResponse(saved)));
-    }
-
     private Property toEntity(PropertyRequest dto) {
         Property entity = new Property();
         entity.setName(dto.getName());

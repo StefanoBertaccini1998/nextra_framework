@@ -1,4 +1,8 @@
 spring:
+  application:
+    name: nextra-re
+  profiles:
+    active: dev
   main:
     allow-bean-definition-overriding: true
   jpa:
