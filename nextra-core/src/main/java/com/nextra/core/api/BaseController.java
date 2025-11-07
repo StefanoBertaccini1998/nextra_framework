@@ -4,11 +4,11 @@ import com.nextra.core.persistence.service.BaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -34,14 +34,19 @@ public abstract class BaseController<T, ID> {
 
     // 🔹 READ ALL (paginated or not)
     @GetMapping
-    public ResponseEntity<?> getAll(Pageable pageable) {
-        log.info("➡️ [GET] Fetching all entities");
+    public ResponseEntity<ApiResponse<?>> getAll(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        log.info("➡️ [GET] Fetching all entities (page={}, size={}, sort={})",
+                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+
         Page<T> page = service.findAll(pageable);
-        if (page.getContent().isEmpty()) {
+
+        if (page.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(ApiResponse.error("No data found"));
         }
-        return ResponseEntity.ok(ApiResponse.ok(page));
+
+        PagedResponse<T> paged = PagedResponse.from(page);
+        return ResponseEntity.ok(ApiResponse.ok(paged));
     }
 
     // 🔹 READ BY ID

@@ -2,14 +2,20 @@ package com.nextra.core.security;
 
 import com.nextra.core.security.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class JwtSanityTest {
+    @Autowired
+    private JwtTokenProvider jwt;
+
     @Test
     void shouldGenerateAndValidateToken() {
-        JwtTokenProvider jwt = new JwtTokenProvider();
-        String token = jwt.generateToken("demo");
+        String token = jwt.generateToken("testuser");
         assertTrue(jwt.validateToken(token));
-        assertEquals("demo", jwt.getUsernameFromToken(token));
+        assertEquals("testuser", jwt.getUsernameFromToken(token));
     }
 }
