@@ -8,7 +8,6 @@ import com.nextra.re.persistence.model.Property;
 import com.nextra.re.persistence.service.AccountService;
 import com.nextra.re.persistence.service.CategoryService;
 import com.nextra.re.persistence.service.PropertyService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

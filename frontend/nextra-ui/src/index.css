@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/* Design tokens */
+@layer base {
+  :root {
+    /* These are fallback values - actual values will be set by ThemeProvider */
+    --color-primary: #0066CC;
+    --color-primaryHover: #0052A3;
+    --color-primaryActive: #004080;
+    --color-secondary: #6B46C1;
+    --color-background: #F8FAFC;
+    --color-surface: #FFFFFF;
+    --color-text: #1E293B;
+  }
+
+  html {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  /* Base button styles */
+  button {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    transition: background-color 0.2s;
+  }
+
+  button:hover {
+    background-color: var(--color-primaryHover);
+  }
+}
