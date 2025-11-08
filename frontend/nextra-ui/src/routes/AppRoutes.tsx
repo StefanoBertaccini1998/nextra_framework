@@ -18,39 +18,9 @@ const PublicRoute: React.FC<RouteGuardProps> = ({ children }) => {
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <>{children}</>;
 };
 
-// Placeholder Pages
-const PropertiesPage = () => (
-  <div className="space-y-6">
-    <h1 className="text-2xl font-semibold text-text">Properties</h1>
-    <div className="bg-surface rounded-lg shadow p-6">
-      <p className="text-text-secondary text-center py-12">
-        Properties management coming soon
-      </p>
-    </div>
-  </div>
-);
-
-const ClientsPage = () => (
-  <div className="space-y-6">
-    <h1 className="text-2xl font-semibold text-text">Clients</h1>
-    <div className="bg-surface rounded-lg shadow p-6">
-      <p className="text-text-secondary text-center py-12">
-        Client management coming soon
-      </p>
-    </div>
-  </div>
-);
-
-const SettingsPage = () => (
-  <div className="space-y-6">
-    <h1 className="text-2xl font-semibold text-text">Settings</h1>
-    <div className="bg-surface rounded-lg shadow p-6">
-      <p className="text-text-secondary text-center py-12">
-        Settings panel coming soon
-      </p>
-    </div>
-  </div>
-);
+import { PropertiesPage } from '../pages/PropertiesPage';
+import { ClientsPage } from '../pages/ClientsPage';
+import { SettingsPage } from '../pages/SettingsPage';
 
 export const AppRoutes = () => {
   return (
