@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '../components/common/Button';
+import { useLocation } from 'react-router-dom';
 import {
   BellIcon,
   UserCircleIcon,
@@ -75,10 +76,17 @@ export const SettingsPage: React.FC = () => {
   ];
 
   const [activeSection, setActiveSection] = React.useState('account');
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.section) {
+      setActiveSection(location.state.section);
+    }
+  }, [location.state]);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="h-[calc(100vh-4rem)] flex flex-col">
+      <div className="flex justify-between items-center p-6 border-b border-border bg-background/50 backdrop-blur-sm">
         <div>
           <h1 className="text-2xl font-semibold text-text">Settings</h1>
           <p className="text-text-secondary mt-1">Manage your account and application settings</p>
@@ -86,9 +94,9 @@ export const SettingsPage: React.FC = () => {
         <Button variant="primary">Save Changes</Button>
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex gap-6 flex-1 overflow-hidden">
         {/* Sidebar Navigation */}
-        <nav className="w-64 shrink-0">
+        <nav className="w-64 shrink-0 p-6 border-r border-border bg-background/50 backdrop-blur-sm">
           <div className="space-y-1">
             {settingsSections.map((section) => {
               const Icon = section.icon;
@@ -112,10 +120,11 @@ export const SettingsPage: React.FC = () => {
         </nav>
 
         {/* Main Content */}
-        <div className="flex-1 space-y-6">
-          {settingsSections
-            .find((section) => section.id === activeSection)
-            ?.items.map((item) => (
+        <div className="flex-1 overflow-y-auto p-6">
+          <div className="space-y-6">
+            {settingsSections
+              .find((section) => section.id === activeSection)
+              ?.items.map((item) => (
               <div
                 key={item.id}
                 className="bg-surface p-6 rounded-lg shadow space-y-4"
@@ -197,6 +206,7 @@ export const SettingsPage: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>
         </div>
       </div>
     </div>

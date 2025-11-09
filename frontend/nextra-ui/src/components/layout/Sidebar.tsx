@@ -5,6 +5,8 @@ import {
   ChartBarIcon,
   UserGroupIcon,
   Cog6ToothIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
 } from '@heroicons/react/24/outline';
 
 interface SidebarProps {
@@ -40,12 +42,6 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         <span className={`text-xl font-semibold text-primary transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
           Nextra
         </span>
-        <button onClick={onToggle} className="ml-auto lg:hidden">
-          <span className="sr-only">Toggle Sidebar</span>
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </button>
       </div>
       
       <nav className="flex flex-col gap-2">
@@ -75,13 +71,30 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         })}
       </nav>
       
-      <div className="mt-auto text-sm text-text-secondary px-2">
-        <span className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
-          v0.1 · MVP
-        </span>
-        <span className={`transition-opacity duration-300 ${!isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
-          v0.1
-        </span>
+      <div className="mt-auto flex flex-col gap-4">
+        {/* Version info */}
+        <div className="text-sm text-text-secondary px-2">
+          <span className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+            v0.1 · MVP
+          </span>
+          <span className={`transition-opacity duration-300 ${!isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+            v0.1
+          </span>
+        </div>
+
+        {/* Collapse button */}
+        <button
+          onClick={onToggle}
+          className="hidden lg:flex items-center justify-center w-full h-9 rounded-lg transition-colors duration-200
+                   bg-primary/10 hover:bg-primary/20 text-primary"
+          title={isOpen ? "Collapse sidebar" : "Expand sidebar"}
+        >
+          {isOpen ? (
+            <ChevronLeftIcon className="w-5 h-5 stroke-2" />
+          ) : (
+            <ChevronRightIcon className="w-5 h-5 stroke-2" />
+          )}
+        </button>
       </div>
     </aside>
   );

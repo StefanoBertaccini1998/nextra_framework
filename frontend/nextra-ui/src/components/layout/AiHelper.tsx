@@ -17,7 +17,7 @@ export const AiHelper: React.FC<AiHelperProps> = ({ isOpen, onClose }) => {
           animate={{ width: "20%", opacity: 1 }}
           exit={{ width: 0, opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="h-full bg-surface border-l border-border shadow-lg flex flex-col"
+          className="h-screen bg-surface border-l border-border shadow-lg flex flex-col"
         >
           <div className="flex items-center justify-between p-4 border-b border-border bg-surface/50 backdrop-blur-sm">
             <div className="flex items-center gap-2">

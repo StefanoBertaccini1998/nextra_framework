@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useFetch, useMutation } from '../../hooks/useApi';
-import { DataTable } from '../../components/common/DataTable';
-import { DetailView } from '../../components/common/DetailView';
-import { Button } from '../../components/common/Button';
-import { ApiClient } from '../../services/api';
+import { useFetch, useMutation } from '../hooks/useApi';
+import { DataTable } from '../components/common/DataTable';
+import { DetailView } from '../components/common/DetailView';
+import { Button } from '../components/common/Button';
+import { ApiClient } from '../services/api';
 
 interface Client {
   id: string;
@@ -15,7 +15,7 @@ interface Client {
 }
 
 const apiClient = new ApiClient({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api'
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080/api'
 });
 
 export function ClientsPage() {
