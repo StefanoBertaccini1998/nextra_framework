@@ -10,11 +10,17 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "noEmit": true, // This prevents TypeScript from generating files
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true, // Better for fast development
     "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "nextra-ui/*": ["src/*"]
+    },
 
     /* Linting */
     "strict": true,

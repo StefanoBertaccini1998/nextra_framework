@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/common/Button';
+import { LoadingScreen } from '../components/common/LoadingScreen';
+import { motion } from 'framer-motion';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -41,17 +43,40 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-md p-4">
-        <div className="bg-surface rounded-lg shadow-lg p-8">
-          {/* Logo */}
-          <div className="flex flex-col items-center mb-8">
-            <div className="h-12 w-12 bg-primary rounded-lg flex items-center justify-center text-white text-2xl font-bold mb-4">
-              N
+    <>
+      <LoadingScreen isLoading={isLoading} />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="min-h-screen flex items-center justify-center bg-background"
+      >
+        <div className="w-full max-w-md p-4">
+          <motion.div 
+            className="bg-surface rounded-lg shadow-lg p-8"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            {/* Logo */}
+            <div className="flex flex-col items-center mb-8">
+              <motion.img
+                src="/assets/logo/full/logo-full.svg"
+                alt="Nextra"
+                className="h-12 mb-4"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              />
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <h1 className="text-2xl font-semibold text-text">Welcome to Nextra</h1>
+                <p className="text-text-secondary mt-2 text-center">Sign in to continue</p>
+              </motion.div>
             </div>
-            <h1 className="text-2xl font-semibold text-text">Welcome to Nextra</h1>
-            <p className="text-text-secondary mt-2">Sign in to continue</p>
-          </div>
 
           {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-6">
@@ -90,16 +115,13 @@ export const LoginPage: React.FC = () => {
                 placeholder="demo"
               />
               <div className="mt-1">
-                <a 
-                  href="#" 
+                <button 
+                  type="button"
                   className="text-sm text-primary hover:text-primary/80"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert('This is a demo version. Use demo@example.com / demo to sign in.');
-                  }}
+                  onClick={() => alert('This is a demo version. Use demo@example.com / demo to sign in.')}
                 >
                   Forgot your password?
-                </a>
+                </button>
               </div>
             </div>
 
@@ -112,7 +134,7 @@ export const LoginPage: React.FC = () => {
               {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
-
+          </motion.div>
           {/* Demo Notice */}
           <div className="mt-6 text-sm text-text-secondary text-center space-y-2 border-t border-border pt-6">
             <p className="font-medium">
@@ -124,7 +146,7 @@ export const LoginPage: React.FC = () => {
             </p>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </>
   );
 };

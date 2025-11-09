@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '../common/Button';
 import ThemeSwitcher from '../ThemeSwitcher';
+import { SparklesIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -19,14 +20,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onAiHelperClick }) 
         
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          <Button variant="ghost" onClick={onAiHelperClick}>
-            🤖
+           <Button 
+            variant="ghost" 
+            onClick={onAiHelperClick}
+            className="hover:bg-surface-hover"
+          >
+            <SparklesIcon className="w-5 h-5 stroke-2 text-text" />
           </Button>
           <span className="h-6 w-px bg-border mx-2" />
           <div className="flex items-center gap-2">
             <span className="text-sm text-text-secondary">John Doe</span>
             <Button variant="ghost" size="sm">
-              👤
+              <UserCircleIcon className="w-5 h-5 stroke-2 text-text" />
             </Button>
           </div>
         </div>

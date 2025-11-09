@@ -1,12 +1,15 @@
+import React from 'react';
 import type { PropsWithChildren } from 'react';
 import { Sidebar } from '../components/layout/Sidebar';
 import { Topbar } from '../components/layout/Topbar';
 import { Footer } from '../components/layout/Footer';
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+
   return (
     <div className="min-h-screen flex bg-background text-text">
-      <Sidebar />
+      <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
       <div className="flex-1 flex flex-col">
         <Topbar />
         <main className="p-6 flex-1 overflow-auto">{children}</main>

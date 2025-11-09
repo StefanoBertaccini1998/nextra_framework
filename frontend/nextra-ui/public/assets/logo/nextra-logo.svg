@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4F46E5" /> <!-- Indigo -->
+      <stop offset="100%" stop-color="#A855F7" /> <!-- Purple -->
+    </linearGradient>
+  </defs>
+
+  <!-- Main geometric composition -->
+  <g transform="translate(64, 96)">
+    <!-- N -->
+    <path d="M0 320V0h48l112 192V0h48v320h-48L48 128v192H0z" 
+          fill="white" opacity="0.9"/>
+    
+    <!-- X (overlapped) -->
+    <path d="M240 0l64 160-64 160h-56l64-160L184 0h56z" 
+          fill="white" opacity="0.9"/>
+    <path d="M304 0h56l-64 160 64 160h-56l-64-160L304 0z" 
+          fill="white" opacity="0.8"/>
+    
+    <!-- E -->
+    <path d="M384 0v48h-80v88h72v48h-72v88h80v48h-128V0h128z" 
+          fill="white" opacity="0.9"/>
+  </g>
+
+  <!-- Decorative geometric elements -->
+  <circle cx="256" cy="256" r="240" stroke="url(#bgGradient)" stroke-width="2" fill="none" opacity="0.2"/>
+  <circle cx="256" cy="256" r="200" stroke="url(#bgGradient)" stroke-width="4" fill="none" opacity="0.1"/>
+</svg>

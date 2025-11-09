@@ -1,5 +1,5 @@
-import { DataGrid } from '../../components/common/DataGrid/DataGrid';
-import { PageHeader } from '../../components/common';
+import { DataGrid } from 'nextra-ui/components/common/DataGrid/DataGrid';
+import { PageHeader } from 'nextra-ui/components/common';
 
 type Client = { id: number; name: string; email: string; phone?: string };
 
@@ -18,8 +18,8 @@ export default function ClientsList() {
 
   return (
     <div>
-      <PageHeader title="Clients" description="Manage clients and contact info" />
-      <DataGrid data={sample} columns={columns} searchField="name" pageSize={10} />
+      <PageHeader title="Clients" description="Manage your clients" />
+      <DataGrid data={sample} columns={columns} />
     </div>
   );
 }

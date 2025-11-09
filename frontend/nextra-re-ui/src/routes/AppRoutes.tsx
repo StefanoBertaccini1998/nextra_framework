@@ -1,8 +1,10 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Layout } from '../components/layout';
-import { LoginPage } from '../pages/LoginPage';
-import { DashboardPage } from '../pages/DashboardPage';
+import { Layout } from 'nextra-ui/components/layout';
+import ClientsList from './pages/clients/ClientsList';
+import PropertiesList from './pages/properties/PropertiesList';
+import { SettingsPage } from 'nextra-ui/pages/settings/SettingsPage';
+import { DashboardPage } from 'nextra-ui/pages/dashboard/DashboardPage';
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -17,8 +19,6 @@ const PublicRoute: React.FC<RouteGuardProps> = ({ children }) => {
   const isAuthenticated = localStorage.getItem('isLoggedIn') === 'true';
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <>{children}</>;
 };
-
-import { SettingsPage } from '../pages/SettingsPage';
 
 export const AppRoutes = () => {
   return (
@@ -40,6 +40,8 @@ export const AppRoutes = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="properties" element={<PropertiesList />} />
+              <Route path="clients" element={<ClientsList />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Routes>

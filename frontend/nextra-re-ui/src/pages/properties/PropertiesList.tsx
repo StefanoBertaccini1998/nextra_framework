@@ -1,5 +1,5 @@
-import { DataGrid } from '../../components/common/DataGrid/DataGrid';
-import { PageHeader } from '../../components/common';
+import { DataGrid } from 'nextra-ui/components/common/DataGrid/DataGrid';
+import { PageHeader } from 'nextra-ui/components/common';
 
 type Property = { id: number; title: string; address: string; price: number; status: string };
 
@@ -19,8 +19,8 @@ export default function PropertiesList() {
 
   return (
     <div>
-      <PageHeader title="Properties" description="List and manage properties" />
-      <DataGrid data={sample} columns={columns} searchField="title" pageSize={10} />
+      <PageHeader title="Properties" description="Manage your properties" />
+      <DataGrid data={sample} columns={columns} />
     </div>
   );
 }
