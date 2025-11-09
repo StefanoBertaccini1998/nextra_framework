@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFetch, useMutation } from '../hooks/useApi';
 import { DataTable } from '../components/common/DataTable';
 import { DetailView } from '../components/common/DetailView';
 import { Button } from '../components/common/Button';
 import { ApiClient } from '../services/api';
+import { useToast } from '../components/common/Toast';
 
 interface Client {
   id: string;
@@ -22,16 +23,31 @@ export function ClientsPage() {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const { addToast } = useToast();
 
   const { data: clients = [], isLoading, error } = useFetch<Client[]>(
     apiClient,
-    `/clients?sort=${sortColumn},${sortDirection}`
+    `/clients?sort=${sortColumn},${sortDirection}`,
+    {
+      onError: (error) => {
+        addToast('error', 'Failed to load clients', error.message);
+      }
+    }
   );
 
   const { mutate: deleteClient, isLoading: isDeleting } = useMutation<void, void>(
     apiClient,
     `/clients/${selectedClient?.id}`,
-    'delete'
+    'delete',
+    {
+      onSuccess: () => {
+        addToast('success', 'Client deleted', 'The client was successfully deleted');
+        setSelectedClient(null);
+      },
+      onError: (error) => {
+        addToast('error', 'Failed to delete client', error.message);
+      }
+    }
   );
 
   const handleSort = (column: string) => {
@@ -80,14 +96,6 @@ export function ClientsPage() {
       render: (value: string) => new Date(value).toLocaleDateString()
     }
   ];
-
-  if (error) {
-    return (
-      <div className="p-4 text-error">
-        Error loading clients: {error.message}
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">

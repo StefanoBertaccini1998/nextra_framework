@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onAiHelperClick }) 
           </IconButton>
           <span className="h-6 w-px bg-white/20 mx-2" />
           <div className="flex items-center gap-3">
-            <span className="text-sm text-navbarText/90">John Doe</span>
+            <span className="text-sm text-white">John Doe</span>
             <IconButton 
               size="sm"
               onClick={handleProfileClick}

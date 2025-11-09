@@ -35,21 +35,21 @@ const ToastItem: React.FC<Toast & { onClose: () => void }> = ({
   };
 
   const bgColors = {
-    info: 'bg-infoLight text-info',
-    success: 'bg-successLight text-success',
-    warning: 'bg-warningLight text-warning',
-    error: 'bg-errorLight text-error',
+    info: 'bg-infoLight text-info border-info/20',
+    success: 'bg-successLight text-success border-success/20',
+    warning: 'bg-warningLight text-warning border-warning/20',
+    error: 'bg-errorLight text-error border-error/20',
   };
 
   return (
     <div
-      className={`flex items-start gap-3 p-4 rounded-lg shadow-lg ${bgColors[type]}`}
+      className={`flex items-start gap-3 p-4 rounded-lg shadow-md bg-white border ${bgColors[type]}`}
       role="alert"
     >
       <span className="text-lg">{icons[type]}</span>
       <div className="flex-1">
-        <h4 className="font-medium">{title}</h4>
-        {message && <p className="mt-1 text-sm opacity-90">{message}</p>}
+        <h4 className="font-semibold">{title}</h4>
+        {message && <p className="mt-1 text-sm">{message}</p>}
       </div>
       <button
         onClick={onClose}
@@ -87,8 +87,8 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <ToastContext.Provider value={{ addToast, removeToast }}>
       {children}
-      {/* Toast Container */}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-md">
+      {/* Toast Container - Now positioned top-right */}
+      <div className="fixed top-20 right-4 z-50 flex flex-col gap-2 max-w-md">
         {toasts.map((toast) => (
           <ToastItem
             key={toast.id}
