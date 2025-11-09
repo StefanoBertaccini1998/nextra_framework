@@ -85,8 +85,8 @@ export const SettingsPage: React.FC = () => {
   }, [location.state]);
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col">
-      <div className="flex justify-between items-center p-6 border-b border-border bg-background/50 backdrop-blur-sm">
+    <div className="min-h-screen flex flex-col">
+      <div className="flex justify-between items-center p-6 border-b border-border bg-background/50 backdrop-blur-sm sticky top-16 z-40">
         <div>
           <h1 className="text-2xl font-semibold text-text">Settings</h1>
           <p className="text-text-secondary mt-1">Manage your account and application settings</p>
@@ -120,7 +120,7 @@ export const SettingsPage: React.FC = () => {
         </nav>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 bg-background">
           <div className="space-y-6">
             {settingsSections
               .find((section) => section.id === activeSection)
