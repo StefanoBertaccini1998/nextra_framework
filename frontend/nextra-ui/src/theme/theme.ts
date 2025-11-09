@@ -1,4 +1,4 @@
-export type ColorScheme = 'light' | 'dark' | 'accessible';
+export type ColorScheme = 'light' | 'dark' | 'dark-red' | 'accessible';
 
 export type NextraTheme = {
     name: ColorScheme;
@@ -147,6 +147,22 @@ export const darkTheme: NextraTheme = {
         errorLight: "#450A0A",
         info: "#0EA5E9",
         infoLight: "#082F49",
+    },
+    radius: baseTheme.radius,
+    font: baseTheme.font,
+};
+
+/* === 🔴 Dark Red Theme === */
+export const darkRedTheme: NextraTheme = {
+    name: "dark-red",
+    colors: {
+        ...darkTheme.colors,
+        primary: "#FF3B30",
+        primaryHover: "#E0321F",
+        primaryActive: "#C02D1D",
+        secondary: "#FF6B6B",
+        secondaryHover: "#FF5252",
+        secondaryActive: "#FF3838",
     },
     radius: baseTheme.radius,
     font: baseTheme.font,

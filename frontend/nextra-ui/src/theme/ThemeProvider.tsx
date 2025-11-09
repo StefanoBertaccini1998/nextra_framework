@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
-import { baseTheme, darkTheme, accessibleTheme, type NextraTheme, type ColorScheme } from "./theme";
+import { baseTheme, darkTheme, darkRedTheme, accessibleTheme, type NextraTheme, type ColorScheme } from "./theme";
 
 type ThemeContextType = {
   theme: NextraTheme;
@@ -19,6 +19,8 @@ const getThemeByName = (name: ColorScheme): NextraTheme => {
   switch (name) {
     case 'dark':
       return darkTheme;
+    case 'dark-red':
+      return darkRedTheme;
     case 'accessible':
       return accessibleTheme;
     default:

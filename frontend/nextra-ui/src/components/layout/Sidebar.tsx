@@ -28,10 +28,18 @@ const navItems: NavItem[] = [
 export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const location = useLocation();
   return (
-    <aside className={`w-20 lg:w-64 h-full bg-surface border-r border-border p-4 flex flex-col gap-4 transition-all duration-300 ${isOpen ? '' : 'hidden'}`}>
+    <aside className={`
+      fixed lg:static top-0 left-0 z-50
+      h-screen bg-surface border-r border-border
+      transition-all duration-300 ease-in-out
+      ${isOpen ? 'w-64' : 'w-20'}
+      flex flex-col p-4 gap-4
+    `}>
       <div className="flex items-center gap-3 px-2">
         <img src="/assets/logo/icon/logo-icon.svg" alt="Nextra" className="w-8 h-8" />
-        <span className="text-xl font-semibold text-primary hidden lg:block">Nextra</span>
+        <span className={`text-xl font-semibold text-primary transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
+          Nextra
+        </span>
         <button onClick={onToggle} className="ml-auto lg:hidden">
           <span className="sr-only">Toggle Sidebar</span>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,23 +59,29 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
               to={item.path}
               title={item.label}
               className={`
-                group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
+                group relative flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
                 ${isActive 
-                  ? 'bg-primary/10 text-primary' 
-                  : 'text-text-secondary hover:bg-surface-hover'
+                  ? 'bg-primary/15 text-primary font-medium shadow-[0_0_12px_-3px] shadow-primary/40 ring-1 ring-primary/30 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-6 before:bg-primary before:rounded-r-full' 
+                  : 'text-text-secondary hover:bg-surface-hover hover:text-text'
                 }
               `}
             >
-              <Icon className="w-6 h-6 shrink-0" />
-              <span className="hidden lg:block">{item.label}</span>
+              <Icon className={`w-6 h-6 shrink-0 transition-all duration-200 ${isActive ? 'stroke-2 text-primary' : 'text-text-secondary group-hover:text-text'}`} />
+              <span className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+                {item.label}
+              </span>
             </Link>
           );
         })}
       </nav>
       
       <div className="mt-auto text-sm text-text-secondary px-2">
-        <span className="hidden lg:inline">v0.1 · MVP</span>
-        <span className="lg:hidden">v0.1</span>
+        <span className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+          v0.1 · MVP
+        </span>
+        <span className={`transition-opacity duration-300 ${!isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+          v0.1
+        </span>
       </div>
     </aside>
   );

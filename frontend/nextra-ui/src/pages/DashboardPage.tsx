@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { LoadingScreen } from '../components/common/LoadingScreen';
-import { QuickAction, type QuickActionItem } from '../components/common/QuickAction/QuickAction';
+import { LoadingScreen } from '../components/common';
+import { QuickAction, type QuickActionItem } from '../components/common/QuickAction';
 
 export const DashboardPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 1000);
+    const loadData = async () => {
+      try {
+        // Simulate data loading
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
   return (
     <>
-      <LoadingScreen isLoading={isLoading} />
+      <LoadingScreen isLoading={isLoading} message="Loading dashboard..." />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

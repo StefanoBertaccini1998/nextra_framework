@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Table, type Column } from '../Table/Table';
-import { Input } from '../Form/Form';
-import { Button } from '../Button';
+import { Table, type Column } from './Table';
+import { Input } from './Form';
+import { Button } from './Button';
 
 interface PaginationProps {
   currentPage: number;

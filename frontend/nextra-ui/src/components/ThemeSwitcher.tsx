@@ -1,10 +1,11 @@
 import { useTheme } from "../theme/ThemeProvider";
-import { baseTheme, darkTheme, accessibleTheme, type NextraTheme } from "../theme/theme";
+import { baseTheme, darkTheme, darkRedTheme, accessibleTheme, type NextraTheme } from "../theme/theme";
 import { Button } from "./common/Button";
 import { 
   SunIcon, 
   MoonIcon,
-  EyeIcon
+  EyeIcon,
+  FireIcon
 } from '@heroicons/react/24/solid';
 
 export default function ThemeSwitcher() {
@@ -37,6 +38,16 @@ export default function ThemeSwitcher() {
         >
           <MoonIcon className="w-5 h-5" />
           <span className="sr-only">Dark Theme</span>
+        </Button>
+        <Button 
+          size="sm"
+          variant={theme.name === "dark-red" ? "primary" : "ghost"}
+          isActive={theme.name === "dark-red"}
+          onClick={() => handleThemeChange(darkRedTheme)}
+          title="Dark Red Theme"
+        >
+          <FireIcon className="w-5 h-5" />
+          <span className="sr-only">Dark Red Theme</span>
         </Button>
         <Button
           size="sm"
