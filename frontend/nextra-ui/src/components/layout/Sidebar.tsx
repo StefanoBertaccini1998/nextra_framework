@@ -40,7 +40,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       flex flex-col p-4
     `}>
       <div className="flex items-center gap-3 px-2 mb-8">
-        <img src="/assets/logo/icon/logo-icon.svg" alt="Nextra" className="w-8 h-8" />
+        <img src="/assets/logo/icon/logo-icon.svg" alt="Nextra" className={`transition-all duration-200 ${isOpen ? 'w-10 h-10' : 'w-12 h-12'}`} />
         <span className={`text-xl font-semibold text-primary transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
           Nextra
         </span>
@@ -60,11 +60,11 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
                 group relative flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
                 ${isActive 
                   ? 'bg-primary/15 text-primary font-medium shadow-[0_0_12px_-3px] shadow-primary/40 ring-1 ring-primary/30 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-6 before:bg-primary before:rounded-r-full' 
-                  : 'text-text-secondary hover:bg-surface-hover hover:text-text'
+                  : 'hover:bg-surface-hover'
                 }
               `}
             >
-              <Icon className={`w-6 h-6 shrink-0 transition-all duration-200 ${isActive ? 'stroke-2 text-primary' : 'text-text-secondary group-hover:text-text'}`} />
+              <Icon className={`w-6 h-6 shrink-0 transition-all duration-200 ${isActive ? 'stroke-2 text-primary' : 'text-primary/60 group-hover:text-primary'}`} />
               <span className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
                 {item.label}
               </span>
@@ -75,24 +75,28 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       
       <div className="mt-auto flex flex-col gap-4">
         {/* User Profile */}
-        <div className="px-3 py-2 rounded-lg bg-surface-hover">
+        <Link 
+          to="/settings" 
+          title="Profile Settings"
+          className="px-3 py-2 rounded-lg bg-surface-hover hover:bg-surface-hover/80 transition-colors duration-200"
+        >
           <div className="flex items-center gap-3">
-            <UserCircleIcon className="w-8 h-8 text-primary" />
+            <UserCircleIcon className={`shrink-0 text-primary transition-all duration-200 stroke-[1.5] ${isOpen ? 'w-8 h-8' : 'w-6 h-6'}`} />
             <div className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
               <div className="font-medium text-text">John Doe</div>
               <div className="text-sm text-text-secondary">Administrator</div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Version info */}
         <div className="text-sm text-text-secondary px-2">
-          <span className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+          <div className={`transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 hidden'}`}>
             v0.1 · MVP
-          </span>
-          <span className={`transition-opacity duration-300 ${!isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+          </div>
+          <div className={`transition-all duration-300 ${!isOpen ? 'opacity-100 flex justify-center' : 'opacity-0 hidden'}`}>
             v0.1
-          </span>
+          </div>
         </div>
 
         {/* Collapse button */}
@@ -103,9 +107,9 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
           title={isOpen ? "Collapse sidebar" : "Expand sidebar"}
         >
           {isOpen ? (
-            <ChevronLeftIcon className="w-5 h-5 stroke-2" />
+            <ChevronLeftIcon className="w-5 h-5 stroke-2 text-primary" />
           ) : (
-            <ChevronRightIcon className="w-5 h-5 stroke-2" />
+            <ChevronRightIcon className="w-5 h-5 stroke-[2.5] text-primary" />
           )}
         </button>
       </div>

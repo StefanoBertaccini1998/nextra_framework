@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
-import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { AiHelper } from './AiHelper';
 import ThemeSwitcher from '../common/ThemeSwitcher';
