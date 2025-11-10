@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
   { path: '/settings', icon: Cog6ToothIcon, label: 'Settings' },
 ];
 
-export function Sidebar({ isOpen, onToggle, onAiHelperClick }: SidebarProps) {
+export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const location = useLocation();
   return (
     <aside className={`
