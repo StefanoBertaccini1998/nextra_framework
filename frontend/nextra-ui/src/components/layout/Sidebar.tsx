@@ -32,19 +32,19 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   return (
     <aside className={`
       fixed lg:static top-0 left-0 z-50
-      h-screen bg-surface border-r border-border
-      transition-all duration-300 ease-in-out
+      h-[100dvh] bg-surface border-r border-border
+      transition-all duration-300 ease-in-out overflow-hidden
       ${isOpen ? 'w-64' : 'w-20'}
-      flex flex-col p-4 gap-4
+      flex flex-col p-4
     `}>
-      <div className="flex items-center gap-3 px-2">
+      <div className="flex items-center gap-3 px-2 mb-8">
         <img src="/assets/logo/icon/logo-icon.svg" alt="Nextra" className="w-8 h-8" />
         <span className={`text-xl font-semibold text-primary transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
           Nextra
         </span>
       </div>
       
-      <nav className="flex flex-col gap-2">
+      <nav className="flex flex-col gap-2 flex-1 justify-center">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
@@ -71,7 +71,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         })}
       </nav>
       
-      <div className="mt-auto flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
         {/* Version info */}
         <div className="text-sm text-text-secondary px-2">
           <span className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>

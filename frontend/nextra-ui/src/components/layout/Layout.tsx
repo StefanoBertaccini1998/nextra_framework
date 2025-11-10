@@ -9,24 +9,28 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [isAiHelperOpen, setAiHelperOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="h-screen bg-background flex overflow-hidden">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onToggle={() => setSidebarOpen(!isSidebarOpen)} />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen">
-        <Navbar 
-          onMenuClick={() => setSidebarOpen(!isSidebarOpen)}
-          onAiHelperClick={() => setAiHelperOpen(!isAiHelperOpen)} 
-        />
+      <div className="flex-1 flex flex-col h-screen">
+        <div className="flex-none h-16">
+          <Navbar 
+            onMenuClick={() => setSidebarOpen(!isSidebarOpen)}
+            onAiHelperClick={() => setAiHelperOpen(!isAiHelperOpen)} 
+          />
+        </div>
         
-        <main className="flex-1 p-6 transition-all duration-200">
-          <div className="container mx-auto">
+        <main className="flex-1 transition-all duration-200 overflow-hidden">
+          <div className="container mx-auto h-full">
             {children}
           </div>
         </main>
 
-        <Footer />
+        <div className="flex-none">
+          <Footer />
+        </div>
       </div>
 
       {/* AI Helper */}

@@ -85,8 +85,8 @@ export const SettingsPage: React.FC = () => {
   }, [location.state]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex justify-between items-center p-6 border-b border-border bg-background/50 backdrop-blur-sm sticky top-16 z-40">
+    <div className="h-full flex flex-col overflow-hidden">
+      <div className="flex-none flex justify-between items-center h-16 px-6 border-b border-border bg-background/50 backdrop-blur-sm z-40">
         <div>
           <h1 className="text-2xl font-semibold text-text">Settings</h1>
           <p className="text-text-secondary mt-1">Manage your account and application settings</p>
@@ -94,10 +94,10 @@ export const SettingsPage: React.FC = () => {
         <Button variant="primary">Save Changes</Button>
       </div>
 
-      <div className="flex gap-6 flex-1 overflow-hidden">
+      <div className="flex gap-6 flex-1 min-h-0 p-6">
         {/* Sidebar Navigation */}
-        <nav className="w-64 shrink-0 p-6 border-r border-border bg-background/50 backdrop-blur-sm">
-          <div className="space-y-1">
+        <nav className="w-64 flex-none border-r border-border pr-6">
+          <div className="space-y-6">
             {settingsSections.map((section) => {
               const Icon = section.icon;
               return (
@@ -120,14 +120,14 @@ export const SettingsPage: React.FC = () => {
         </nav>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-y-auto p-6 bg-background">
+        <div className="flex-1 overflow-y-auto min-h-0">
           <div className="space-y-6">
-            {settingsSections
-              .find((section) => section.id === activeSection)
-              ?.items.map((item) => (
-              <div
-                key={item.id}
-                className="bg-surface p-6 rounded-lg shadow space-y-4"
+              {settingsSections
+                .find((section) => section.id === activeSection)
+                ?.items.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-surface p-6 rounded-lg shadow space-y-4"
               >
                 <div className="flex justify-between items-start">
                   <div>
