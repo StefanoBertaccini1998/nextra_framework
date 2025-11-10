@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from '../components/layout';
 import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
+import { ClientsPage } from '../pages/ClientsPage';
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -18,8 +19,6 @@ const PublicRoute: React.FC<RouteGuardProps> = ({ children }) => {
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <>{children}</>;
 };
 
-import { PropertiesPage } from '../pages/PropertiesPage';
-import { ClientsPage } from '../pages/ClientsPage';
 import { SettingsPage } from '../pages/SettingsPage';
 
 export const AppRoutes = () => {
@@ -42,7 +41,6 @@ export const AppRoutes = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<DashboardPage />} />
-              <Route path="properties" element={<PropertiesPage />} />
               <Route path="clients" element={<ClientsPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
