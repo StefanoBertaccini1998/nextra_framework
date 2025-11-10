@@ -16,11 +16,6 @@ export default {
           active: "var(--color-secondaryActive)",
         },
         accent: "var(--color-accent)",
-        navbar: {
-          DEFAULT: "var(--color-navbar)",
-          text: "var(--color-navbarText)",
-          hover: "var(--color-navbarHover)",
-        },
         background: "var(--color-background)",
         surface: {
           DEFAULT: "var(--color-surface)",

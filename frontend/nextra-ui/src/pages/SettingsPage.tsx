@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from '../components/common/Button';
-import { useLocation } from 'react-router-dom';
 import {
+  Cog6ToothIcon,
   BellIcon,
   UserCircleIcon,
-  ShieldCheckIcon
+  KeyIcon,
+  ShieldCheckIcon,
+  LockClosedIcon
 } from '@heroicons/react/24/outline';
 
 export const SettingsPage: React.FC = () => {
@@ -76,17 +78,10 @@ export const SettingsPage: React.FC = () => {
   ];
 
   const [activeSection, setActiveSection] = React.useState('account');
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.state?.section) {
-      setActiveSection(location.state.section);
-    }
-  }, [location.state]);
 
   return (
-    <div className="h-full flex flex-col overflow-hidden">
-      <div className="flex-none flex justify-between items-center h-16 px-6 border-b border-border bg-background/50 backdrop-blur-sm z-40">
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-semibold text-text">Settings</h1>
           <p className="text-text-secondary mt-1">Manage your account and application settings</p>
@@ -94,10 +89,10 @@ export const SettingsPage: React.FC = () => {
         <Button variant="primary">Save Changes</Button>
       </div>
 
-      <div className="flex gap-6 flex-1 min-h-0 p-6">
+      <div className="flex gap-6">
         {/* Sidebar Navigation */}
-        <nav className="w-64 flex-none border-r border-border pr-6">
-          <div className="space-y-6">
+        <nav className="w-64 shrink-0">
+          <div className="space-y-1">
             {settingsSections.map((section) => {
               const Icon = section.icon;
               return (
@@ -120,14 +115,13 @@ export const SettingsPage: React.FC = () => {
         </nav>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-y-auto min-h-0">
-          <div className="space-y-6">
-              {settingsSections
-                .find((section) => section.id === activeSection)
-                ?.items.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-surface p-6 rounded-lg shadow space-y-4"
+        <div className="flex-1 space-y-6">
+          {settingsSections
+            .find((section) => section.id === activeSection)
+            ?.items.map((item) => (
+              <div
+                key={item.id}
+                className="bg-surface p-6 rounded-lg shadow space-y-4"
               >
                 <div className="flex justify-between items-start">
                   <div>
@@ -142,22 +136,20 @@ export const SettingsPage: React.FC = () => {
                   {item.id === 'profile' && (
                     <>
                       <div>
-                        <label htmlFor="displayName" className="block text-sm font-medium text-text mb-1">
+                        <label className="block text-sm font-medium text-text mb-1">
                           Display Name
                         </label>
                         <input
-                          id="displayName"
                           type="text"
                           className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 bg-background text-text"
                           placeholder="Your name"
                         />
                       </div>
                       <div>
-                        <label htmlFor="emailAddress" className="block text-sm font-medium text-text mb-1">
+                        <label className="block text-sm font-medium text-text mb-1">
                           Email Address
                         </label>
                         <input
-                          id="emailAddress"
                           type="email"
                           className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 bg-background text-text"
                           placeholder="your@email.com"
@@ -169,21 +161,19 @@ export const SettingsPage: React.FC = () => {
                   {item.id === 'password' && (
                     <>
                       <div>
-                        <label htmlFor="currentPassword" className="block text-sm font-medium text-text mb-1">
+                        <label className="block text-sm font-medium text-text mb-1">
                           Current Password
                         </label>
                         <input
-                          id="currentPassword"
                           type="password"
                           className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 bg-background text-text"
                         />
                       </div>
                       <div>
-                        <label htmlFor="newPassword" className="block text-sm font-medium text-text mb-1">
+                        <label className="block text-sm font-medium text-text mb-1">
                           New Password
                         </label>
                         <input
-                          id="newPassword"
                           type="password"
                           className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 bg-background text-text"
                         />
@@ -206,7 +196,6 @@ export const SettingsPage: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
         </div>
       </div>
     </div>

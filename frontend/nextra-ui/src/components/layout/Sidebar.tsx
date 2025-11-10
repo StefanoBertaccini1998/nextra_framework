@@ -45,21 +45,34 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         ${isOpen ? 'w-64' : 'w-20'}
         flex flex-col p-4
       `}>
-      <div className="flex items-center gap-3 px-2 mb-8">
+      <div className={`flex mb-8 w-full transition-all duration-300 ease-in-out ${isOpen ? 'flex-row items-center gap-3' : 'justify-center'}`}>
         <div 
-          className={`bg-white rounded-lg p-1 transition-all duration-200`}
+          className="bg-white rounded-lg flex items-center justify-center p-0.5 overflow-hidden"
           style={{ 
-            width: isOpen ? '40px' : '48px',
-            height: isOpen ? '40px' : '48px'
+            width: '48px',
+            height: '48px'
           }}
         >
           <img 
             src="/assets/logo/icon/nextra_full_gradient_transparent.svg" 
             alt="Nextra" 
-            className="w-full h-full object-contain"
+            style={{
+              width: isOpen ? '120%' : '130%',
+              height: isOpen ? '120%' : '130%',
+              objectFit: 'contain',
+              transform: `scale(${isOpen ? '1' : '1.05'})`,
+              transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
           />
         </div>
-        <span className={`text-xl font-semibold text-white transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
+        <span 
+          className="text-xl font-semibold text-white overflow-hidden transition-all duration-300 ease-in-out"
+          style={{
+            maxWidth: isOpen ? '200px' : '0',
+            opacity: isOpen ? 1 : 0,
+            transform: `translateX(${isOpen ? '0' : '-10px'})`,
+          }}
+        >
           Nextra
         </span>
       </div>
@@ -100,13 +113,15 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
           style={{
             backgroundColor: 'rgba(255, 255, 255, 0.1)'
           }}
-          className="px-3 py-2 rounded-lg hover:bg-white/20 transition-colors duration-200"
+          className={`rounded-lg hover:bg-white/20 transition-all duration-200 flex items-center ${isOpen ? 'px-3 py-2' : 'p-2'}`}
         >
-          <div className="flex items-center gap-3">
-            <UserCircleIcon className={`shrink-0 text-white transition-all duration-200 stroke-[1.5] ${isOpen ? 'w-8 h-8' : 'w-6 h-6'}`} />
-            <div className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
-              <div className="font-medium text-white">John Doe</div>
-              <div className="text-sm text-white/70">Administrator</div>
+          <div className={`flex items-center gap-3 ${isOpen ? 'w-full' : 'justify-center'}`}>
+            <div className="flex items-center justify-center">
+              <UserCircleIcon className="w-8 h-8 shrink-0 text-white stroke-[1.5]" />
+            </div>
+            <div className={`transition-all duration-300 overflow-hidden ${isOpen ? 'opacity-100 w-full' : 'opacity-0 w-0'}`}>
+              <div className="font-medium text-white whitespace-nowrap">John Doe</div>
+              <div className="text-sm text-white/70 whitespace-nowrap">Administrator</div>
             </div>
           </div>
         </Link>
@@ -125,11 +140,13 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         <button
           onClick={onToggle}
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            color: 'rgba(255, 255, 255, 0.9)'
+            backgroundColor: theme.colors.surface,
+            color: theme.colors.primary,
+            borderColor: theme.colors.border,
+            borderWidth: '1px'
           }}
-          className="hidden lg:flex items-center justify-center w-full h-9 rounded-lg transition-colors duration-200
-                   hover:bg-white/20"
+          className="hidden lg:flex items-center justify-center w-full h-9 rounded-lg transition-all duration-200
+                   hover:bg-surfaceHover hover:border-borderHover"
           title={isOpen ? "Collapse sidebar" : "Expand sidebar"}
         >
           {isOpen ? (

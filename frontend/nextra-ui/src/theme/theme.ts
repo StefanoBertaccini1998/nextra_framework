@@ -1,4 +1,4 @@
-export type ColorScheme = 'light' | 'dark' | 'dark-red' | 'accessible';
+export type ColorScheme = 'light' | 'dark' | 'accessible';
 
 export type NextraTheme = {
     name: ColorScheme;
@@ -11,11 +11,6 @@ export type NextraTheme = {
         secondaryHover: string;
         secondaryActive: string;
         accent: string;
-
-        // Navbar colors
-        navbar: string;
-        navbarText: string;
-        navbarHover: string;
 
         // Surface colors
         background: string;
@@ -71,11 +66,6 @@ export const baseTheme: NextraTheme = {
         secondaryActive: "#44337A",
         accent: "#F59E0B",
 
-        // Navbar colors
-        navbar: "#0066CC",
-        navbarText: "#FFFFFF",
-        navbarHover: "#0052A3",
-
         // Surface colors
         background: "#F8FAFC",
         surface: "#FFFFFF",
@@ -130,11 +120,6 @@ export const darkTheme: NextraTheme = {
         secondaryActive: "#7E22CE",
         accent: "#FBBF24",
 
-        // Navbar colors
-        navbar: "#3B82F6",
-        navbarText: "#FFFFFF",
-        navbarHover: "#2563EB",
-
         // Surface colors
         background: "#0F172A",
         surface: "#1E293B",
@@ -167,35 +152,6 @@ export const darkTheme: NextraTheme = {
     font: baseTheme.font,
 };
 
-/* === 🔴 Dark Red Theme === */
-export const darkRedTheme: NextraTheme = {
-    name: "dark-red",
-    colors: {
-        ...darkTheme.colors,
-        // Brand colors
-        primary: "#FF3B30",
-        primaryHover: "#E0321F",
-        primaryActive: "#C02D1D",
-        secondary: "#FF6B6B",
-        secondaryHover: "#FF5252",
-        secondaryActive: "#FF3838",
-        accent: "#FF9500",
-
-        // Navbar colors
-        navbar: "#FF3B30",
-        navbarText: "#FFFFFF",
-        navbarHover: "#E0321F",
-
-        // Override dark theme colors
-        background: "#1A0F0F",
-        surface: "#2D1F1F",
-        surfaceHover: "#3D2929",
-        surfaceActive: "#4D3333"
-    },
-    radius: baseTheme.radius,
-    font: baseTheme.font,
-};
-
 /* === ♿ Accessible Theme (High Contrast) === */
 export const accessibleTheme: NextraTheme = {
     name: "accessible",
@@ -208,11 +164,6 @@ export const accessibleTheme: NextraTheme = {
         secondaryHover: "#5B0A91",
         secondaryActive: "#44066D",
         accent: "#FFB300",
-
-        // Navbar colors
-        navbar: "#0051BA",
-        navbarText: "#FFFFFF",
-        navbarHover: "#003F8F",
 
         // Surface colors
         background: "#FFFFFF",
