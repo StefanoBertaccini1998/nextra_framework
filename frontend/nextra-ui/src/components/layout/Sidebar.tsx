@@ -6,7 +6,9 @@ import {
   UserGroupIcon,
   Cog6ToothIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  SparklesIcon,
+  UserCircleIcon
 } from '@heroicons/react/24/outline';
 
 interface SidebarProps {
@@ -27,7 +29,7 @@ const navItems: NavItem[] = [
   { path: '/settings', icon: Cog6ToothIcon, label: 'Settings' },
 ];
 
-export function Sidebar({ isOpen, onToggle }: SidebarProps) {
+export function Sidebar({ isOpen, onToggle, onAiHelperClick }: SidebarProps) {
   const location = useLocation();
   return (
     <aside className={`
@@ -71,7 +73,18 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         })}
       </nav>
       
-      <div className="flex flex-col gap-4">
+      <div className="mt-auto flex flex-col gap-4">
+        {/* User Profile */}
+        <div className="px-3 py-2 rounded-lg bg-surface-hover">
+          <div className="flex items-center gap-3">
+            <UserCircleIcon className="w-8 h-8 text-primary" />
+            <div className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+              <div className="font-medium text-text">John Doe</div>
+              <div className="text-sm text-text-secondary">Administrator</div>
+            </div>
+          </div>
+        </div>
+
         {/* Version info */}
         <div className="text-sm text-text-secondary px-2">
           <span className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>

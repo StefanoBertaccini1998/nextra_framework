@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../common/Button';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { SparklesIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 interface AiHelperProps {
@@ -9,17 +9,38 @@ interface AiHelperProps {
 }
 
 export const AiHelper: React.FC<AiHelperProps> = ({ isOpen, onClose }) => {
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ width: 0, opacity: 0 }}
-          animate={{ width: "20%", opacity: 1 }}
-          exit={{ width: 0, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="h-screen bg-surface border-l border-border shadow-lg flex flex-col"
+    <>
+      {/* Tab Handle */}
+      <motion.div
+        initial={false}
+        animate={{ 
+          right: isOpen ? "320px" : "0px"
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="fixed top-1/2 -translate-y-1/2 z-50"
+      >
+        <button
+          onClick={onClose} // Now toggles both open and close
+          className="bg-surface border border-border py-8 ps-3 pe-5 hover:bg-surface-hover transition-all duration-200 group
+                     rounded-s-full shadow-md -me-2"
         >
-          <div className="flex items-center justify-between p-4 border-b border-border bg-surface/50 backdrop-blur-sm">
+          <SparklesIcon className="w-5 h-5 stroke-2 text-text group-hover:scale-110 transition-transform duration-200" />
+        </button>
+      </motion.div>
+
+      {/* Panel */}
+      <motion.div
+        initial={false}
+        animate={{ 
+          width: isOpen ? "320px" : "0px",
+          boxShadow: isOpen ? "-4px 0 10px rgba(0, 0, 0, 0.1)" : "none"
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="fixed right-0 top-0 h-screen bg-surface border-l border-border flex flex-col z-40 overflow-hidden"
+      >
+          <div className="flex items-center justify-between p-4 border-b border-border">
             <div className="flex items-center gap-2">
               <SparklesIcon className="w-5 h-5 text-primary stroke-2" />
               <h2 className="text-lg font-semibold text-text">AI Helper</h2>
@@ -65,7 +86,6 @@ export const AiHelper: React.FC<AiHelperProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
         </motion.div>
-      )}
-    </AnimatePresence>
+    </>
   );
 };

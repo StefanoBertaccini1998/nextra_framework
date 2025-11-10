@@ -1,60 +1,69 @@
+import React, { useState } from "react";
 import { useTheme } from "../../theme/ThemeProvider";
 import { baseTheme, darkTheme, darkRedTheme, accessibleTheme, type NextraTheme } from "../../theme/theme";
-import { IconButton } from "./IconButton";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   SunIcon, 
   MoonIcon,
   EyeIcon,
-  FireIcon
+  FireIcon,
+  SwatchIcon
 } from '@heroicons/react/24/solid';
+
+const themes = [
+  { theme: baseTheme, icon: SunIcon, label: "Light Theme" },
+  { theme: darkTheme, icon: MoonIcon, label: "Dark Theme" },
+  { theme: darkRedTheme, icon: FireIcon, label: "Dark Red Theme" },
+  { theme: accessibleTheme, icon: EyeIcon, label: "Accessible Theme" }
+];
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleThemeChange = (newTheme: NextraTheme) => {
-    console.log('Switching to theme:', newTheme.name);
     setTheme(newTheme);
+    setIsOpen(false);
   };
 
   return (
-    <div className="flex items-center">
-      <div className="flex gap-1">
-        <IconButton 
-          size="sm"
-          isActive={theme.name === "light"}
-          onClick={() => handleThemeChange(baseTheme)}
-          title="Light Theme"
-          color="white"
+    <div className="z-50">
+      <div className="relative">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-14 h-14 rounded-full bg-surface border border-border shadow-lg hover:bg-surface-hover transition-all duration-200 flex items-center justify-center"
         >
-          <SunIcon className="w-5 h-5 stroke-[1.5]" />
-        </IconButton>
-        <IconButton 
-          size="sm"
-          isActive={theme.name === "dark"}
-          onClick={() => handleThemeChange(darkTheme)}
-          title="Dark Theme"
-          color="white"
-        >
-          <MoonIcon className="w-5 h-5 stroke-[1.5]" />
-        </IconButton>
-        <IconButton 
-          size="sm"
-          isActive={theme.name === "dark-red"}
-          onClick={() => handleThemeChange(darkRedTheme)}
-          title="Dark Red Theme"
-          color="white"
-        >
-          <FireIcon className="w-5 h-5 stroke-[1.5]" />
-        </IconButton>
-        <IconButton 
-          size="sm"
-          isActive={theme.name === "accessible"}
-          onClick={() => handleThemeChange(accessibleTheme)}
-          title="Accessible Theme"
-          color="white"
-        >
-          <EyeIcon className="w-5 h-5 stroke-[1.5]" />
-        </IconButton>
+          <SwatchIcon className="w-8 h-8 text-text" />
+        </button>
+
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 0 }}
+              animate={{ opacity: 1, scale: 1, y: -10 }}
+              exit={{ opacity: 0, scale: 0.9, y: 0 }}
+              transition={{ duration: 0.15 }}
+              className="absolute bottom-full right-0 mb-2 bg-surface rounded-lg shadow-lg border border-border p-2 min-w-[180px]"
+            >
+              {themes.map(({ theme: themeOption, icon: Icon, label }) => (
+                <button
+                  key={themeOption.name}
+                  onClick={() => handleThemeChange(themeOption)}
+                  className={`
+                    w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm
+                    ${theme.name === themeOption.name 
+                      ? 'bg-primary/15 text-primary font-medium' 
+                      : 'text-text-secondary hover:bg-surface-hover hover:text-text'
+                    }
+                  `}
+                >
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
