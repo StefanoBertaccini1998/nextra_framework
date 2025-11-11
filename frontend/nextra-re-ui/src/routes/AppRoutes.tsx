@@ -1,10 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Layout } from 'nextra-ui/components/layout';
-import ClientsList from './pages/clients/ClientsList';
-import PropertiesList from './pages/properties/PropertiesList';
-import { SettingsPage } from 'nextra-ui/pages/settings/SettingsPage';
-import { DashboardPage } from 'nextra-ui/pages/dashboard/DashboardPage';
+import { Layout, LoginPage, SettingsPage, DashboardPage } from 'nextra-ui';
+import ClientsList from '../pages/clients/ClientsList';
+import PropertiesList from '../pages/properties/PropertiesList';
 
 interface RouteGuardProps {
   children: React.ReactNode;

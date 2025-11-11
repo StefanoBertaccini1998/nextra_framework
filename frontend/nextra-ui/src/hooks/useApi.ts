@@ -51,7 +51,7 @@ export function useFetch<T>(
     return { data, error, isLoading };
 }
 
-interface UseMutationOptions<T, R> {
+interface UseMutationOptions<R> {
     onSuccess?: (data: R) => void;
     onError?: (error: Error) => void;
     onSettled?: () => void;
@@ -61,7 +61,7 @@ export function useMutation<T, R>(
     apiClient: ApiClient,
     url: string,
     method: 'post' | 'put' | 'patch' | 'delete' = 'post',
-    options: UseMutationOptions<T, R> = {}
+    options: UseMutationOptions<R> = {}
 ) {
     const [data, setData] = useState<R | undefined>(undefined);
     const [error, setError] = useState<Error | null>(null);

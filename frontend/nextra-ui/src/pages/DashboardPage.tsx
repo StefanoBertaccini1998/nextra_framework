@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { LoadingScreen } from '../components/common';
-import { QuickAction, type QuickActionItem } from '../components/common/QuickAction';
+import { LoadingScreen, QuickAction } from '@nextra/ui-lib';
 
 export const DashboardPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -78,12 +77,8 @@ export const DashboardPage: React.FC = () => {
                 { icon: 'plus' as const, label: 'Add New Item', variant: 'primary' as const },
                 { icon: 'team' as const, label: 'Manage Team', variant: 'primary' as const },
                 { icon: 'reports' as const, label: 'View Reports', variant: 'primary' as const }
-              ]).map((action, index) => (
-                <QuickAction
-                  key={action.label}
-                  action={action}
-                  index={index}
-                />
+              ]).map((action) => (
+                <QuickAction key={action.label}>{action.label}</QuickAction>
               ))}
             </div>
           </motion.div>

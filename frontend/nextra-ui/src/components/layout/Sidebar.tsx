@@ -7,7 +7,6 @@ import {
   Cog6ToothIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  SparklesIcon,
   UserCircleIcon
 } from '@heroicons/react/24/outline';
 import { useTheme } from '../../theme/ThemeProvider';
@@ -40,7 +39,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         borderRight: `1px solid ${theme.colors.primary}30`
       }}
       className={`
-        fixed lg:static top-0 left-0 z-50
+        fixed lg:static top-0 left-0 z-50 lg:z-auto
         h-dvh transition-all duration-300 ease-in-out overflow-hidden
         ${isOpen ? 'w-64' : 'w-20'}
         flex flex-col p-4
@@ -145,8 +144,10 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             borderColor: theme.colors.border,
             borderWidth: '1px'
           }}
-          className="hidden lg:flex items-center justify-center w-full h-9 rounded-lg transition-all duration-200
-                   hover:bg-surfaceHover hover:border-borderHover"
+    // Make the collapse button always visible for now (helps debug responsive issues).
+    // Change back to "hidden lg:flex" if you want it hidden on small screens.
+    className="flex items-center justify-center w-full h-9 rounded-lg transition-all duration-200
+         hover:bg-surfaceHover hover:border-borderHover"
           title={isOpen ? "Collapse sidebar" : "Expand sidebar"}
         >
           {isOpen ? (

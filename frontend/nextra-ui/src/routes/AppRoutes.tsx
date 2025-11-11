@@ -20,6 +20,7 @@ const PublicRoute: React.FC<RouteGuardProps> = ({ children }) => {
 };
 
 import { SettingsPage } from '../pages/SettingsPage';
+import PropertiesExample from '../pages/PropertiesExample';
 
 export const AppRoutes = () => {
   return (
@@ -41,6 +42,7 @@ export const AppRoutes = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="properties" element={<PropertiesExample />} />
               <Route path="clients" element={<ClientsPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />

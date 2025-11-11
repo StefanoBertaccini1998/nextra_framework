@@ -20,9 +20,15 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* 👇 ADD THIS SECTION 👇 */
+    "baseUrl": ".",
+    "paths": {
+      "nextra-ui/*": ["../nextra-ui/src/*"],
+      "nextra-ui": ["../nextra-ui/src"]
+    }
   },
   "include": ["src"]
 }

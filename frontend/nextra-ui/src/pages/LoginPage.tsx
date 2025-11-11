@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/common/Button';
-import { LoadingScreen } from '../components/common';
+import { Button, LoadingScreen } from '@nextra/ui-lib';
 import { motion } from 'framer-motion';
 
 export const LoginPage: React.FC = () => {

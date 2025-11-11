@@ -7,6 +7,7 @@ import ThemeSwitcher from '../common/ThemeSwitcher';
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isAiHelperOpen, setAiHelperOpen] = useState(false);
+  
 
   return (
     <div className="h-screen bg-background flex overflow-hidden">
@@ -17,26 +18,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       />
 
       {/* Main Content */}
+  {/** main content; offsets are computed above */}
+
       <div className="flex-1 flex flex-col h-screen">
-        <main 
-          className="flex-1 transition-all duration-200 overflow-hidden p-6"
-          style={{ 
-            marginRight: isAiHelperOpen ? '320px' : '0',
-            width: `calc(100% - ${isAiHelperOpen ? '320px' : '0px'})`
-          }}
+        <main
+          className={`flex-1 transition-all duration-200 overflow-hidden p-6 ${isAiHelperOpen ? 'mr-80' : ''} ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}
         >
           <div className="container mx-auto h-full">
             {children}
           </div>
         </main>
 
-        <div 
-          className="flex-none transition-all duration-200"
-          style={{ 
-            marginRight: isAiHelperOpen ? '320px' : '0',
-            width: `calc(100% - ${isAiHelperOpen ? '320px' : '0px'})`
-          }}
-        >
+        <div className={`flex-none transition-all duration-200 ${isAiHelperOpen ? 'mr-80' : ''} ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
           <Footer />
         </div>
       </div>

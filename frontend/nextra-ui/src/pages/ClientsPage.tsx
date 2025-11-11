@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useFetch, useMutation } from '../hooks/useApi';
 import { DataTable } from '../components/common/DataTable';
 import { DetailView } from '../components/common/DetailView';
@@ -25,7 +25,7 @@ export function ClientsPage() {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const { addToast } = useToast();
 
-  const { data: clients = [], isLoading, error } = useFetch<Client[]>(
+  const { data: clients = [], isLoading } = useFetch<Client[]>(
     apiClient,
     `/clients?sort=${sortColumn},${sortDirection}`,
     {

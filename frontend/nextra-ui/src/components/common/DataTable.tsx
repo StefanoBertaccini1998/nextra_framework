@@ -38,7 +38,7 @@ export function DataTable<T extends { id?: string | number }>({
     <>
       {Array.from({ length: loadingSkeletonRows }).map((_, index) => (
         <tr key={`skeleton-${index}`} className="animate-pulse">
-          {columns.map((column, colIndex) => (
+          {columns.map((_, colIndex) => (
             <td key={`skeleton-${index}-${colIndex}`} className="px-4 py-3">
               <div className="h-4 bg-surface-hover rounded" />
             </td>
@@ -50,11 +50,11 @@ export function DataTable<T extends { id?: string | number }>({
 
   const renderCell = (item: T, column: Column<T>) => {
     if (column.render) {
-      return column.render(item);
+      return column.render(item) as React.ReactNode;
     }
 
     const key = column.key as keyof T;
-    return item[key];
+    return item[key] as unknown as React.ReactNode;
   };
 
   return (

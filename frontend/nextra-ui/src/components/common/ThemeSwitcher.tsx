@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTheme } from "../../theme/ThemeProvider";
 import { baseTheme, darkTheme, darkRedTheme, accessibleTheme, type NextraTheme } from "../../theme/theme";
 import { motion, AnimatePresence } from "framer-motion";

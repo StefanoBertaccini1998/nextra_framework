@@ -1,4 +1,4 @@
-import { DataGrid } from 'nextra-ui/components/common/DataGrid/DataGrid';
+import { DataGrid } from 'nextra-ui/components/common/DataGrid';
 import { PageHeader } from 'nextra-ui/components/common';
 
 type Client = { id: number; name: string; email: string; phone?: string };

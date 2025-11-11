@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    // Include UI library sources so Tailwind scans component classes
+    "../nextra-ui-lib/src/**/*.{js,ts,jsx,tsx}",
+    // Also include built files in case the library is imported from dist
+    "../nextra-ui-lib/dist/**/*.{js,ts,jsx,tsx}",
+  ],
   darkMode: "class",
   theme: {
     extend: {
@@ -58,4 +65,23 @@ export default {
     },
   },
   plugins: [],
+  // Keep some commonly used icon/size/stroke utilities that may be built dynamically
+  safelist: [
+    "w-4",
+    "w-5",
+    "w-6",
+    "h-4",
+    "h-5",
+    "h-6",
+    "stroke-1",
+    "stroke-2",
+    "shrink-0",
+    "opacity-0",
+    "opacity-100",
+    "p-2",
+    "px-2",
+    "py-1",
+    "rounded",
+    "rounded-lg",
+  ],
 };

@@ -24,9 +24,9 @@ export function DetailView<T>({
 }: DetailViewProps<T>) {
   const renderValue = (field: DetailField<T>) => {
     if (field.render) {
-      return field.render(data[field.key as keyof T]);
+      return field.render(data[field.key as keyof T]) as React.ReactNode;
     }
-    return data[field.key as keyof T];
+    return data[field.key as keyof T] as unknown as React.ReactNode;
   };
 
   return (

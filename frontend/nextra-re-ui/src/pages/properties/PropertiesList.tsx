@@ -1,4 +1,4 @@
-import { DataGrid } from 'nextra-ui/components/common/DataGrid/DataGrid';
+import { DataGrid } from 'nextra-ui/components/common/DataGrid';
 import { PageHeader } from 'nextra-ui/components/common';
 
 type Property = { id: number; title: string; address: string; price: number; status: string };
