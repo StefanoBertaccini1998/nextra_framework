@@ -11,3 +11,4 @@ export { default as Table } from './Table';
 export { default as Tabs } from './Tabs';
 export { default as ThemeSwitcher } from './ThemeSwitcher';
 export { default as Toast } from './Toast';
+export { ToastProvider, useToast } from './ToastProvider';

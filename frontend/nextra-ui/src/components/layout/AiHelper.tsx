@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../common/Button';
+import { Button } from '@nextra/ui-lib';
 import { motion } from 'framer-motion';
 import { SparklesIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -46,7 +46,7 @@ export const AiHelper: React.FC<AiHelperProps> = ({ isOpen, onClose }) => {
               <h2 className="text-lg font-semibold text-text">AI Helper</h2>
             </div>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={onClose}
               className="hover:bg-surface-hover rounded-full p-1"

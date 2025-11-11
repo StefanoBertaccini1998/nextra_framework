@@ -1,5 +1,4 @@
-// Common Components
-export * from './components/common';
+// (No local common barrel) Common components are provided by `@nextra/ui-lib`.
 export * from './components/layout';
 
 // Pages

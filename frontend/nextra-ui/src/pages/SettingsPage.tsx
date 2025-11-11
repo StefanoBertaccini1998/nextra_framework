@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button } from '../components/common/Button';
+import { Button } from '@nextra/ui-lib';
 import { useLocation } from 'react-router-dom';
 import {
   BellIcon,
@@ -134,7 +134,7 @@ export const SettingsPage: React.FC = () => {
                     <h3 className="text-lg font-medium text-text">{item.title}</h3>
                     <p className="text-text-secondary mt-1">{item.description}</p>
                   </div>
-                  <Button variant="ghost">Edit</Button>
+                  <Button variant="primary">Edit</Button>
                 </div>
 
                 {/* Example form fields - you'll need to customize these based on the setting type */}
