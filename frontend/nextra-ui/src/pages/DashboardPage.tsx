@@ -72,13 +72,13 @@ export const DashboardPage: React.FC = () => {
             transition={{ delay: 0.6 }}
           >
             <h3 className="text-lg font-medium text-text mb-4">Quick Actions</h3>
-            <div className="space-y-2">
+            <div className="flex flex-col gap-3 items-start">
               {([
                 { icon: 'plus' as const, label: 'Add New Item', variant: 'primary' as const },
                 { icon: 'team' as const, label: 'Manage Team', variant: 'primary' as const },
                 { icon: 'reports' as const, label: 'View Reports', variant: 'primary' as const }
               ]).map((action) => (
-                <QuickAction key={action.label}>{action.label}</QuickAction>
+                <QuickAction key={action.label} className="w-48">{action.label}</QuickAction>
               ))}
             </div>
           </motion.div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { Footer } from './Footer';
 import { AiHelper } from './AiHelper';
-import { ThemeSwitcher } from '@nextra/ui-lib';
+import ThemeSwitcher from '../common/ThemeSwitcher';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
