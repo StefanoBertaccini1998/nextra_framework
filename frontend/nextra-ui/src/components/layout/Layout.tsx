@@ -10,7 +10,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   
 
   return (
-    <div className="h-screen bg-background flex overflow-hidden">
+    <div className="h-screen bg-background flex">
       {/* Sidebar */}
       <Sidebar 
         isOpen={isSidebarOpen} 
@@ -20,9 +20,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {/* Main Content */}
   {/** main content; offsets are computed above */}
 
-      <div className="flex-1 flex flex-col h-screen">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
         <main
-          className={`flex-1 transition-all duration-200 overflow-hidden p-6 ${isAiHelperOpen ? 'mr-80' : ''} ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}
+          className={`flex-1 transition-all duration-200 overflow-auto p-6 ${isAiHelperOpen ? 'mr-80' : ''} ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}
         >
           <div className="container mx-auto h-full">
             {children}

@@ -13,6 +13,4 @@ export * from './types';
 // Expose hooks and services
 export * from './hooks/useAuth';
 export * from './services/api';
-// Export utilities
-export * from './services/api';
-export * from './hooks/useAuth';
+export * from './services/ApiClient';

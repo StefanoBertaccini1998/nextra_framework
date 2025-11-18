@@ -1,10 +1,13 @@
 export { default as DataTable } from './DataTable';
 export { default as DetailView } from './DetailView';
 export { default as Form } from './Form';
+export { Form as DynamicForm } from './DynamicForm';
+export type { FormField, FormProps, FieldType } from './DynamicForm';
 export { default as IconButton } from './IconButton';
 export { default as Image } from './Image';
 export { default as LoadingScreen } from './LoadingScreen';
 export { default as Modal } from './Modal';
+export { default as OffCanvas } from './OffCanvas';
 export { default as PageHeader } from './PageHeader';
 export { default as QuickAction } from './QuickAction';
 export { default as Table } from './Table';

@@ -126,6 +126,7 @@
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                     </compilerArgs>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
         </plugins>
