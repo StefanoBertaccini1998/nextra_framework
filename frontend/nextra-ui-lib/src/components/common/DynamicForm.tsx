@@ -225,21 +225,11 @@ export function Form<T extends Record<string, any>>({
         ))}
       </div>
 
-      <div className="flex gap-3 justify-end pt-6 border-t border-gray-200">
-        {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            disabled={loading}
-            className="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 border border-gray-300 rounded-lg text-gray-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {cancelLabel}
-          </button>
-        )}
+      <div className="flex gap-3 justify-end pt-6">
         <button
           type="submit"
           disabled={loading}
-          className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors shadow-sm hover:shadow-md"
+          className="px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors shadow-sm hover:shadow-md"
         >
           {loading && (
             <svg

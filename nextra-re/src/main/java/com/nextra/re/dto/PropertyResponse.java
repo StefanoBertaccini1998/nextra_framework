@@ -1,19 +1,32 @@
 package com.nextra.re.dto;
 
+import com.nextra.re.persistence.model.PropertyStatus;
+import com.nextra.re.persistence.model.PropertyType;
 import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
 public class PropertyResponse {
     private Long id;
-    private String name;
+    private String title;
+    private String location;
     private String address;
     private BigDecimal price;
-    private Double sizeSqm;
+    private Double size;
     private String description;
+    private PropertyType propertyType;
+    private PropertyStatus status;
+    private Integer bedrooms;
+    private Integer bathrooms;
+    private Integer floors;
+    private Integer yearBuilt;
+    private String features;
+    private List<String> images;
+    private String mainImage;
 
     private Long ownerId;
     private String ownerName;

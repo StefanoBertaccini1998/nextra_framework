@@ -12,8 +12,6 @@ export function ClientsPage() {
   const { addToast } = useToast();
   const [showCreateModal, setShowCreateModal] = useState(false);
   
-  console.log('ClientsPage render - showCreateModal:', showCreateModal);
-  
   const { clients, selectedClient, loading, error, sortColumn, sortDirection } = useAppSelector(
     (state) => state.clients
   );
@@ -72,11 +70,7 @@ export function ClientsPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold text-text">Clients</h1>
-        <Button variant="primary" onClick={() => {
-          console.log('Add Client button clicked');
-          setShowCreateModal(true);
-          console.log('showCreateModal set to true');
-        }}>Add Client</Button>
+        <Button variant="primary" onClick={() => setShowCreateModal(true)}>Add Client</Button>
       </div>
 
       {/* Inline error banner as a visible fallback when toast isn't visible */}

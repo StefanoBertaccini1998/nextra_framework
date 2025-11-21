@@ -37,7 +37,7 @@ const AccessibleIcon = () => (
   </svg>
 );
 
-const themes: { name: ColorScheme; label: string; Icon: () => JSX.Element }[] = [
+const themes: { name: ColorScheme; label: string; Icon: () => React.JSX.Element }[] = [
   { name: 'light', label: 'Light', Icon: SunIcon },
   { name: 'dark', label: 'Dark', Icon: MoonIcon },
   { name: 'dark-red', label: 'Dark Red', Icon: FlameIcon },

@@ -9,8 +9,6 @@ type Props = {
 };
 
 export default function OffCanvas({ open, onClose, title, children }: Props) {
-  console.log('OffCanvas render - open:', open, 'title:', title);
-  
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && open) {
@@ -19,7 +17,6 @@ export default function OffCanvas({ open, onClose, title, children }: Props) {
     };
 
     if (open) {
-      console.log('OffCanvas: Setting up modal - adding escape listener and hiding body scroll');
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     }
@@ -30,12 +27,7 @@ export default function OffCanvas({ open, onClose, title, children }: Props) {
     };
   }, [open, onClose]);
 
-  if (!open) {
-    console.log('OffCanvas: Not rendering - open is false');
-    return null;
-  }
-
-  console.log('OffCanvas: Rendering modal content');
+  if (!open) return null;
 
   const modalContent = (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
@@ -52,7 +44,7 @@ export default function OffCanvas({ open, onClose, title, children }: Props) {
           <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+            className="bg-red-500 hover:bg-red-600 text-white rounded-lg p-2 transition-colors"
             aria-label="Close"
           >
             <svg

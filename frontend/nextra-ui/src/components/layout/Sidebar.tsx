@@ -4,6 +4,7 @@ import {
   HomeIcon,
   ChartBarIcon,
   UserGroupIcon,
+  BuildingOfficeIcon,
   Cog6ToothIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -26,6 +27,7 @@ const navItems: NavItem[] = [
   { path: '/dashboard', icon: HomeIcon, label: 'Dashboard' },
   { path: '/analytics', icon: ChartBarIcon, label: 'Analytics' },
   { path: '/clients', icon: UserGroupIcon, label: 'Clients' },
+  { path: '/properties', icon: BuildingOfficeIcon, label: 'Properties' },
   { path: '/settings', icon: Cog6ToothIcon, label: 'Settings' },
 ];
 

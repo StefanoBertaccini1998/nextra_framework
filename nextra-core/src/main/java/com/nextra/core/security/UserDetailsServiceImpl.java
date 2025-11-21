@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import jakarta.annotation.PostConstruct;
 import java.util.Collections;
 
 /**
@@ -20,6 +21,13 @@ import java.util.Collections;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
+    private String encodedPassword;
+
+    @PostConstruct
+    public void init() {
+        // Encode password once during initialization
+        encodedPassword = passwordEncoder.encode("password");
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -27,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (username.equalsIgnoreCase("admin")) {
             return User.builder()
                     .username("admin")
-                    .password(passwordEncoder.encode("password"))// {noop} = no password encoder
+                    .password(encodedPassword) // Use pre-encoded password
                     .authorities(Collections.emptyList())
                     .build();
         }
