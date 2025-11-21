@@ -1,18 +1,27 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        // Add your custom colors here
-      },
-      spacing: {
-        // Add custom spacing if needed
-      },
-      borderRadius: {
-        // Add custom border radius if needed
-      },
-      fontSize: {
-        // Add custom font sizes if needed
+        primary: {
+          DEFAULT: "var(--color-primary)",
+          hover: "var(--color-primaryHover)",
+          active: "var(--color-primaryActive)",
+        },
+        secondary: {
+          DEFAULT: "var(--color-secondary)",
+          hover: "var(--color-secondaryHover)",
+          active: "var(--color-secondaryActive)",
+        },
+        success: {
+          DEFAULT: "var(--color-success)",
+          light: "var(--color-successLight)",
+        },
+        error: {
+          DEFAULT: "var(--color-error)",
+          light: "var(--color-errorLight)",
+        },
       },
     },
   },

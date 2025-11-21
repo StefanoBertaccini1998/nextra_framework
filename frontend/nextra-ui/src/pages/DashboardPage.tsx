@@ -1,9 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { LoadingScreen, QuickAction } from '@nextra/ui-lib';
+import { LoadingScreen } from '@nextra/ui-lib';
+import { useToast } from '../components/common/ToastProvider';
+import { useAppDispatch } from '../hooks/redux';
+import { PropertyForm } from '../components/forms/PropertyForm';
+import { ClientForm } from '../components/forms/ClientForm';
+import OffCanvas from '../components/common/OffCanvas';
+import {
+  createProperty as createPropertyThunk,
+  uploadPropertyImages,
+  fetchProperties,
+  type Property,
+} from '../store/slices/propertiesSlice';
+import {
+  createClient as createClientThunk,
+  fetchClients,
+  type Client,
+} from '../store/slices/clientsSlice';
 
 export const DashboardPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [showCreatePropertyModal, setShowCreatePropertyModal] = useState(false);
+  const [showCreateClientModal, setShowCreateClientModal] = useState(false);
+  const dispatch = useAppDispatch();
+  const { addToast } = useToast();
 
   useEffect(() => {
     const loadData = async () => {
@@ -17,6 +37,33 @@ export const DashboardPage: React.FC = () => {
 
     loadData();
   }, []);
+
+  const handleCreateProperty = async (values: Partial<Property>, files?: File[]) => {
+    try {
+      const createdProperty = await dispatch(createPropertyThunk(values as any)).unwrap();
+      
+      if (files && files.length > 0 && createdProperty.id) {
+        await dispatch(uploadPropertyImages({ propertyId: createdProperty.id, files })).unwrap();
+      }
+      
+      addToast('success', 'Property created', 'The property was successfully created');
+      setShowCreatePropertyModal(false);
+      dispatch(fetchProperties({}));
+    } catch (err: any) {
+      addToast('error', 'Failed to create property', err.message || 'Create failed');
+    }
+  };
+
+  const handleCreateClient = async (values: Partial<Client>) => {
+    try {
+      await dispatch(createClientThunk(values as any)).unwrap();
+      addToast('success', 'Client created', 'The client was successfully created');
+      setShowCreateClientModal(false);
+      dispatch(fetchClients({}));
+    } catch (err: any) {
+      addToast('error', 'Failed to create client', err.message || 'Create failed');
+    }
+  };
 
   return (
     <>
@@ -72,14 +119,25 @@ export const DashboardPage: React.FC = () => {
             transition={{ delay: 0.6 }}
           >
             <h3 className="text-lg font-medium text-text mb-4">Quick Actions</h3>
-            <div className="flex flex-col gap-3 items-start">
-              {([
-                { icon: 'plus' as const, label: 'Add New Item', variant: 'primary' as const },
-                { icon: 'team' as const, label: 'Manage Team', variant: 'primary' as const },
-                { icon: 'reports' as const, label: 'View Reports', variant: 'primary' as const }
-              ]).map((action) => (
-                <QuickAction key={action.label} className="w-48">{action.label}</QuickAction>
-              ))}
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowCreatePropertyModal(true)}
+                className="flex-1 px-6 py-3 bg-success hover:bg-green-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Add Property
+              </button>
+              <button
+                onClick={() => setShowCreateClientModal(true)}
+                className="flex-1 px-6 py-3 bg-success hover:bg-green-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Add Client
+              </button>
             </div>
           </motion.div>
 
@@ -117,6 +175,22 @@ export const DashboardPage: React.FC = () => {
           </motion.div>
         </motion.div>
       </motion.div>
+
+      {/* Create Property Modal */}
+      <OffCanvas open={showCreatePropertyModal} onClose={() => setShowCreatePropertyModal(false)} title="Add New Property">
+        <PropertyForm
+          onSubmit={handleCreateProperty}
+          onCancel={() => setShowCreatePropertyModal(false)}
+        />
+      </OffCanvas>
+
+      {/* Create Client Modal */}
+      <OffCanvas open={showCreateClientModal} onClose={() => setShowCreateClientModal(false)} title="Add New Client">
+        <ClientForm
+          onSubmit={handleCreateClient}
+          onCancel={() => setShowCreateClientModal(false)}
+        />
+      </OffCanvas>
     </>
   );
 };

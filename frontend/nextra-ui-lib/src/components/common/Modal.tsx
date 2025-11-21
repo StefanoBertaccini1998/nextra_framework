@@ -10,6 +10,7 @@ type Props = {
 
 export default function Modal({ open, onClose, title, children }: Props) {
   const modalRoot = useRef<HTMLDivElement | null>(null);
+  const scrollAreaRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Create or get the modal root element
@@ -31,13 +32,39 @@ export default function Modal({ open, onClose, title, children }: Props) {
     };
   }, [open]);
 
+  useEffect(() => {
+    // Apply webkit scrollbar styles
+    if (scrollAreaRef.current) {
+      const style = document.createElement('style');
+      style.textContent = `
+        .modal-scroll-area::-webkit-scrollbar {
+          width: 8px;
+        }
+        .modal-scroll-area::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .modal-scroll-area::-webkit-scrollbar-thumb {
+          background: var(--color-border);
+          border-radius: 4px;
+        }
+        .modal-scroll-area::-webkit-scrollbar-thumb:hover {
+          background: var(--color-textSecondary);
+        }
+      `;
+      document.head.appendChild(style);
+      return () => {
+        document.head.removeChild(style);
+      };
+    }
+  }, [open]);
+
   if (!open || !modalRoot.current) return null;
 
   const modalContent = (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+        className="absolute inset-0 z-0 bg-black/60 backdrop-blur-sm" 
         onClick={onClose}
         role="button"
         tabIndex={0}
@@ -46,10 +73,10 @@ export default function Modal({ open, onClose, title, children }: Props) {
       />
       
       {/* Modal Content */}
-      <div className="bg-white rounded-lg shadow-2xl z-10 w-full max-w-4xl max-h-[90vh] flex flex-col relative">
+      <div className="rounded-lg shadow-2xl z-50 w-full max-w-4xl max-h-[90vh] flex flex-col relative" style={{ backgroundColor: 'var(--color-surface)' }}>
         {/* Header with primary color */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 rounded-t-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
-          <h3 className="text-xl font-semibold text-white">{title}</h3>
+        <div className="flex items-center justify-between px-6 py-4 rounded-t-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+          <h3 className="text-xl font-semibold" style={{ color: 'white' }}>{title}</h3>
           <button 
             onClick={onClose} 
             className="p-2 hover:bg-white/20 rounded-full transition-colors"
@@ -62,7 +89,14 @@ export default function Modal({ open, onClose, title, children }: Props) {
         </div>
         
         {/* Body - Scrollable */}
-        <div className="flex-1 overflow-y-auto px-6 py-4">
+        <div 
+          ref={scrollAreaRef}
+          className="flex-1 overflow-y-auto px-6 py-4 modal-scroll-area"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'var(--color-border) transparent'
+          }}
+        >
           {children}
         </div>
       </div>

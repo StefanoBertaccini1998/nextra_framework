@@ -75,8 +75,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     // Apply theme class
-    document.documentElement.classList.remove('light', 'dark', 'accessible');
+    document.documentElement.classList.remove('light', 'dark', 'dark-red', 'accessible');
     document.documentElement.classList.add(theme.name);
+    
+    // Add 'dark' class for Tailwind's dark mode if theme is dark-based
+    if (theme.name === 'dark' || theme.name === 'dark-red') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
 
     // Save theme to localStorage
     localStorage.setItem(STORAGE_KEY, JSON.stringify(theme));

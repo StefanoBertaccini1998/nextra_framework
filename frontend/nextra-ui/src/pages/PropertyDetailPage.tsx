@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button } from '@nextra/ui-lib';
 import { useToast } from '../components/common/ToastProvider';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import {
@@ -90,7 +89,7 @@ export function PropertyDetailPage() {
       <div className="flex items-center justify-between">
         <button
           onClick={() => navigate('/properties')}
-          className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+          className="flex items-center px-4 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -103,12 +102,15 @@ export function PropertyDetailPage() {
           Back to Properties
         </button>
         <div className="flex gap-3">
-          <Button variant="primary" onClick={() => setShowEditModal(true)}>
+          <button
+            onClick={() => setShowEditModal(true)}
+            className="px-4 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
+          >
             Edit Property
-          </Button>
+          </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors"
+            className="px-4 py-2 bg-error hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
           >
             Delete Property
           </button>
@@ -256,7 +258,6 @@ export function PropertyDetailPage() {
           initialValues={selectedProperty}
           onSubmit={handleUpdateProperty}
           onCancel={() => setShowEditModal(false)}
-          loading={loading}
         />
       </OffCanvas>
 

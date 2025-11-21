@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
 
 export default function OffCanvas({ open, onClose, title, children }: Props) {
   console.log('OffCanvas render - open:', open, 'title:', title);
+  const scrollAreaRef = useRef<HTMLDivElement | null>(null);
   
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -30,6 +31,32 @@ export default function OffCanvas({ open, onClose, title, children }: Props) {
     };
   }, [open, onClose]);
 
+  useEffect(() => {
+    // Apply webkit scrollbar styles
+    if (scrollAreaRef.current && open) {
+      const style = document.createElement('style');
+      style.textContent = `
+        .offcanvas-scroll-area::-webkit-scrollbar {
+          width: 8px;
+        }
+        .offcanvas-scroll-area::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .offcanvas-scroll-area::-webkit-scrollbar-thumb {
+          background: var(--color-border);
+          border-radius: 4px;
+        }
+        .offcanvas-scroll-area::-webkit-scrollbar-thumb:hover {
+          background: var(--color-textSecondary);
+        }
+      `;
+      document.head.appendChild(style);
+      return () => {
+        document.head.removeChild(style);
+      };
+    }
+  }, [open]);
+
   if (!open) {
     console.log('OffCanvas: Not rendering - open is false');
     return null;
@@ -41,18 +68,19 @@ export default function OffCanvas({ open, onClose, title, children }: Props) {
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/50"
+        className="absolute inset-0 z-0 bg-black/50"
         onClick={onClose}
       />
       
       {/* Modal */}
-      <div className="relative bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+      <div className="relative z-50 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col" style={{ backgroundColor: 'var(--color-surface)' }}>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        <div className="flex items-center justify-between px-6 py-4 rounded-t-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+          <h2 className="text-xl font-semibold" style={{ color: 'white' }}>{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+            className="transition-colors p-1 hover:opacity-70"
+            style={{ color: 'white' }}
             aria-label="Close"
           >
             <svg
@@ -72,7 +100,14 @@ export default function OffCanvas({ open, onClose, title, children }: Props) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div 
+          ref={scrollAreaRef}
+          className="flex-1 overflow-y-auto p-6 offcanvas-scroll-area"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'var(--color-border) transparent'
+          }}
+        >
           {children}
         </div>
       </div>

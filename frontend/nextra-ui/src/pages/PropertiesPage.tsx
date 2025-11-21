@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@nextra/ui-lib';
 import { useToast } from '../components/common/ToastProvider';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import {
@@ -90,9 +89,12 @@ export function PropertiesPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold text-text">Properties</h1>
-        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+        <button
+          onClick={() => setShowCreateModal(true)}
+          className="px-4 py-2 bg-success hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
+        >
           Add Property
-        </Button>
+        </button>
       </div>
 
       {error && (
