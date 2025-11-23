@@ -1,53 +1,53 @@
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-type Props = {
-  open: boolean;
-  onClose?: () => void;
-  title?: string;
-  children?: React.ReactNode;
-};
+interface ModalProps {
+  readonly open: boolean;
+  readonly onClose?: () => void;
+  readonly title?: string;
+  readonly children?: React.ReactNode;
+  readonly variant?: 'modal' | 'offcanvas';
+}
 
-export default function Modal({ open, onClose, title, children }: Props) {
-  const modalRoot = useRef<HTMLDivElement | null>(null);
+export default function Modal({ open, onClose, title, children, variant = 'modal' }: Readonly<ModalProps>) {
   const scrollAreaRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // Create or get the modal root element
-    let root = document.getElementById('modal-root') as HTMLDivElement;
-    if (!root) {
-      root = document.createElement('div');
-      root.id = 'modal-root';
-      document.body.appendChild(root);
-    }
-    modalRoot.current = root;
+    // Prevent body scroll and handle escape key when modal is open
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) {
+        onClose?.();
+      }
+    };
 
-    // Prevent body scroll when modal is open
     if (open) {
+      document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
+      document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
     };
-  }, [open]);
+  }, [open, onClose]);
 
   useEffect(() => {
     // Apply webkit scrollbar styles
-    if (scrollAreaRef.current) {
+    if (scrollAreaRef.current && open) {
+      const scrollClass = variant === 'modal' ? 'modal-scroll-area' : 'offcanvas-scroll-area';
       const style = document.createElement('style');
       style.textContent = `
-        .modal-scroll-area::-webkit-scrollbar {
+        .${scrollClass}::-webkit-scrollbar {
           width: 8px;
         }
-        .modal-scroll-area::-webkit-scrollbar-track {
+        .${scrollClass}::-webkit-scrollbar-track {
           background: transparent;
         }
-        .modal-scroll-area::-webkit-scrollbar-thumb {
+        .${scrollClass}::-webkit-scrollbar-thumb {
           background: var(--color-border);
           border-radius: 4px;
         }
-        .modal-scroll-area::-webkit-scrollbar-thumb:hover {
+        .${scrollClass}::-webkit-scrollbar-thumb:hover {
           background: var(--color-textSecondary);
         }
       `;
@@ -56,41 +56,59 @@ export default function Modal({ open, onClose, title, children }: Props) {
         style.remove();
       };
     }
-  }, [open]);
+  }, [open, variant]);
 
-  if (!open || !modalRoot.current) return null;
+  if (!open) return null;
+
+  // Backdrop opacity and blur based on variant
+  const backdropClass = variant === 'modal' 
+    ? 'absolute inset-0 z-0 bg-black/60 backdrop-blur-sm cursor-default'
+    : 'absolute inset-0 z-0 bg-black/50 cursor-default';
+
+  const scrollClass = variant === 'modal' ? 'modal-scroll-area' : 'offcanvas-scroll-area';
 
   const modalContent = (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
       <button
         type="button"
-        className="absolute inset-0 z-0 bg-black/60 backdrop-blur-sm cursor-default"
+        className={backdropClass}
         onClick={onClose}
-        onKeyDown={(e) => e.key === 'Escape' && onClose?.()}
+        onKeyDown={(e) => (e.key === 'Escape' || e.key === 'Enter') && onClose?.()}
         aria-label="Close modal"
       />
       
       {/* Modal Content */}
-      <div className="rounded-lg shadow-2xl z-50 w-full max-w-4xl max-h-[90vh] flex flex-col relative" style={{ backgroundColor: 'var(--color-surface)' }}>
-        {/* Header with primary color */}
+      <div className="relative z-50 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col" style={{ backgroundColor: 'var(--color-surface)' }}>
+        {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 rounded-t-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
-          <h3 className="text-xl font-semibold" style={{ color: 'white' }}>{title}</h3>
+          <h2 className="text-xl font-semibold" style={{ color: 'white' }}>{title}</h2>
           <button 
             onClick={onClose} 
-            className="p-2 hover:bg-white/20 rounded-full transition-colors"
-            aria-label="Close modal"
+            className="transition-colors p-1 hover:opacity-70"
+            style={{ color: 'white' }}
+            aria-label="Close"
           >
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg 
+              className="w-6 h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M6 18L18 6M6 6l12 12" 
+              />
             </svg>
           </button>
         </div>
         
-        {/* Body - Scrollable */}
+        {/* Content - Scrollable */}
         <div 
           ref={scrollAreaRef}
-          className="flex-1 overflow-y-auto px-6 py-4 modal-scroll-area"
+          className={`flex-1 overflow-y-auto p-6 ${scrollClass}`}
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: 'var(--color-border) transparent'
@@ -102,5 +120,5 @@ export default function Modal({ open, onClose, title, children }: Props) {
     </div>
   );
 
-  return createPortal(modalContent, modalRoot.current);
+  return createPortal(modalContent, document.body);
 }
