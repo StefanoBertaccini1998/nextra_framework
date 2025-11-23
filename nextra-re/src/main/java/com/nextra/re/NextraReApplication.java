@@ -12,7 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 @EnableJpaRepositories(basePackages = {
         "com.nextra.re",
-        "com.nextra.core.persistence"
+        "com.nextra.core.persistence",
+        "com.nextra.core.security.repository"
 })
 public class NextraReApplication {
     public static void main(String[] args) {
