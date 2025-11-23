@@ -30,7 +30,7 @@ export interface Property {
   updatedAt: string;
 }
 
-interface PropertiesState {
+export interface PropertiesState {
   properties: Property[];
   selectedProperty: Property | null;
   loading: boolean;

@@ -3,12 +3,12 @@ import React from 'react';
 type Tab<T = string> = { id: T; label: string };
 
 type Props<T = string> = {
-  tabs: Tab<T>[];
-  value?: T;
-  onChange?: (id: T) => void;
+  readonly tabs: Tab<T>[];
+  readonly value?: T;
+  readonly onChange?: (id: T) => void;
 };
 
-export default function Tabs<T>({ tabs, value, onChange }: Props<T>) {
+export default function Tabs<T>({ tabs, value, onChange }: Readonly<Props<T>>) {
   const [active, setActive] = React.useState<T | undefined>(value ?? tabs[0]?.id);
 
   React.useEffect(() => {

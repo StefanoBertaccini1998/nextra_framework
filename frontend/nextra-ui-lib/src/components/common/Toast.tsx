@@ -1,12 +1,12 @@
 import React from 'react';
 
-type Props = {
-  message?: string;
-  open?: boolean;
-  onClose?: () => void;
-};
+interface Props {
+  readonly message?: string;
+  readonly open?: boolean;
+  readonly onClose?: () => void;
+}
 
-export default function Toast({ message, open, onClose }: Props) {
+export default function Toast({ message, open, onClose }: Readonly<Props>) {
   React.useEffect(() => {
     if (!open) return;
     const t = setTimeout(() => onClose?.(), 3000);

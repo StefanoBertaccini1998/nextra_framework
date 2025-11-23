@@ -43,7 +43,7 @@ export interface PagedResponse<T> {
 }
 
 // Define the slice state
-interface ClientsState {
+export interface ClientsState {
   clients: Client[];
   selectedClient: Client | null;
   loading: boolean;

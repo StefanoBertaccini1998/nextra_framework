@@ -1,42 +1,41 @@
 import React, { useCallback, useState } from 'react';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import type { FC } from 'react';
 
 export interface ImageUploadProps {
   /**
    * Current image URLs
    */
-  value?: string[];
+  readonly value?: string[];
   
   /**
    * Callback when images change
    */
-  onChange: (files: File[]) => void;
+  readonly onChange: (files: File[]) => void;
   
   /**
    * Maximum number of images allowed
    */
-  maxImages?: number;
+  readonly maxImages?: number;
   
   /**
    * Maximum file size in bytes (default: 10MB)
    */
-  maxFileSize?: number;
+  readonly maxFileSize?: number;
   
   /**
    * Whether the upload is disabled
    */
-  disabled?: boolean;
+  readonly disabled?: boolean;
   
   /**
    * Label text
    */
-  label?: string;
+  readonly label?: string;
   
   /**
    * Helper text shown below the upload area
    */
-  helperText?: string;
+  readonly helperText?: string;
 }
 
 /**
@@ -58,7 +57,7 @@ export function ImageUpload({
   disabled = false,
   label = 'Property Images',
   helperText = 'Drag and drop images here, or click to select files',
-}: ImageUploadProps) {
+}: Readonly<ImageUploadProps>) {
   const [dragActive, setDragActive] = useState(false);
   const [previews, setPreviews] = useState<string[]>(value);
   const [error, setError] = useState<string | null>(null);
@@ -79,9 +78,7 @@ export function ImageUpload({
     }
 
     // Validate each file
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
+    for (const file of Array.from(files)) {
       // Check file type
       if (!file.type.startsWith('image/')) {
         errorMessage = 'Only image files are allowed';
@@ -111,7 +108,7 @@ export function ImageUpload({
     if (validFiles.length > 0) {
       // Create previews
       const newPreviews: string[] = [];
-      validFiles.forEach((file) => {
+      for (const file of validFiles) {
         const reader = new FileReader();
         reader.onloadend = () => {
           newPreviews.push(reader.result as string);
@@ -120,13 +117,13 @@ export function ImageUpload({
           }
         };
         reader.readAsDataURL(file);
-      });
+      }
 
       onChange(validFiles);
     }
   }, [onChange, maxImages, maxFileSize, previews.length]);
 
-  const handleDrag = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrag = useCallback((e: React.DragEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === 'dragenter' || e.type === 'dragover') {
@@ -136,7 +133,7 @@ export function ImageUpload({
     }
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = useCallback((e: React.DragEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -169,9 +166,10 @@ export function ImageUpload({
       )}
 
       {/* Upload Area */}
-      <div
+      <button
+        type="button"
         className={`
-          relative border-2 border-dashed rounded-lg p-6 transition-colors
+          w-full relative border-2 border-dashed rounded-lg p-6 transition-colors
           ${dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}
           ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-blue-400'}
         `}
@@ -180,6 +178,8 @@ export function ImageUpload({
         onDragOver={handleDrag}
         onDrop={handleDrop}
         onClick={() => !disabled && document.getElementById('file-input')?.click()}
+        disabled={disabled}
+        aria-label="Upload images"
       >
         <input
           id="file-input"
@@ -201,7 +201,7 @@ export function ImageUpload({
             {previews.length} / {maxImages} images
           </p>
         </div>
-      </div>
+      </button>
 
       {/* Error Message */}
       {error && (
@@ -215,7 +215,7 @@ export function ImageUpload({
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {previews.map((preview, index) => (
             <div
-              key={index}
+              key={preview}
               className="relative group rounded-lg overflow-hidden border border-gray-200 aspect-square"
             >
               <img

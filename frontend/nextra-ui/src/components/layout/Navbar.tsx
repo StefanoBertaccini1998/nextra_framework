@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, ThemeSwitcher } from '@nextra/ui-lib';
-import { SparklesIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { SparklesIcon, UserCircleIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
@@ -26,8 +26,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onAiHelperClick }) 
         <div className="flex items-center gap-4">
           <IconButton
             onClick={onMenuClick}
+            size="md"
             className="lg:hidden text-white"
-            icon={<span className="text-2xl">☰</span>}
+            icon={<Bars3Icon className="w-6 h-6" />}
+            title="Toggle menu"
           />
         </div>
         
@@ -38,14 +40,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onAiHelperClick }) 
           </div>
           <IconButton
             onClick={onAiHelperClick}
+            size="md"
             className="text-white"
             icon={<SparklesIcon className="w-5 h-5 stroke-2" />}
+            title="Open AI Helper"
           />
           <span className="h-6 w-px bg-white/20 mx-2" />
           <div className="flex items-center gap-3">
             <span className="text-sm text-white">John Doe</span>
             <IconButton
               onClick={handleProfileClick}
+              size="md"
               className="text-white"
               title="Profile Settings"
               icon={<UserCircleIcon className="w-5 h-5 stroke-2" />}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DetailView, Button } from '@nextra/ui-lib';
-import { useToast } from '../components/common/ToastProvider';
+import { DetailView, Button, useToast } from '@nextra/ui-lib';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchClients, deleteClient as deleteClientThunk, setSelectedClient, createClient as createClientThunk } from '../store/slices/clientsSlice';
 import type { Client } from '../store/slices/clientsSlice';
@@ -70,12 +69,12 @@ export function ClientsPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold text-text">Clients</h1>
-        <button
+        <Button
+          variant="success"
           onClick={() => setShowCreateModal(true)}
-          className="px-4 py-2 bg-success hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
         >
           Add Client
-        </button>
+        </Button>
       </div>
 
       {/* Inline error banner as a visible fallback when toast isn't visible */}

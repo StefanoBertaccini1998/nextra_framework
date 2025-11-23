@@ -1,9 +1,16 @@
+export { Button } from './Button';
+export { Card } from './Card';
 export { default as DataTable } from './DataTable';
+export { ThemedInput } from './ThemedInput';
+export type { ThemedInputProps } from './ThemedInput';
 export { default as DetailView } from './DetailView';
 export { default as Form } from './Form';
 export { Form as DynamicForm } from './DynamicForm';
 export type { FormField, FormProps, FieldType } from './DynamicForm';
-export { default as IconButton } from './IconButton';
+export { FormSection } from './FormSection';
+export type { FormSectionProps } from './FormSection';
+export { IconButton } from './IconButton';
+export type { IconButtonProps } from './IconButton';
 export { default as Image } from './Image';
 export { ImageUpload } from './ImageUpload';
 export type { ImageUploadProps } from './ImageUpload';

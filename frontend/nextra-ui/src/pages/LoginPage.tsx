@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DynamicForm, type FormField } from '@nextra/ui-lib';
+import { DynamicForm, type FormField, useToast } from '@nextra/ui-lib';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { login } from '../store/slices/authSlice';
-import { useToast } from '../components/common/ToastProvider';
 
 const loginFields: FormField[] = [
   {

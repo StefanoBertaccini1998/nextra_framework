@@ -52,7 +52,7 @@ export default function OffCanvas({ open, onClose, title, children }: Props) {
       `;
       document.head.appendChild(style);
       return () => {
-        document.head.removeChild(style);
+        style.remove();
       };
     }
   }, [open]);
@@ -67,9 +67,12 @@ export default function OffCanvas({ open, onClose, title, children }: Props) {
   const modalContent = (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 z-0 bg-black/50"
+      <button
+        type="button"
+        className="absolute inset-0 z-0 bg-black/50 cursor-default"
         onClick={onClose}
+        onKeyDown={(e) => e.key === 'Enter' && onClose?.()}
+        aria-label="Close overlay"
       />
       
       {/* Modal */}

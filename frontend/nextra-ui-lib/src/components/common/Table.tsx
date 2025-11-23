@@ -7,16 +7,16 @@ export type Column<T> = {
 };
 
 type Props<T> = {
-  data: T[];
-  columns?: readonly Column<T>[];
-  renderRow?: (item: T, index: number) => React.ReactNode;
-  onRowClick?: (item: T) => void;
-  isLoading?: boolean;
-  selectedId?: string | number;
-  idField?: keyof T;
+  readonly data: T[];
+  readonly columns?: readonly Column<T>[];
+  readonly renderRow?: (item: T, index: number) => React.ReactNode;
+  readonly onRowClick?: (item: T) => void;
+  readonly isLoading?: boolean;
+  readonly selectedId?: string | number;
+  readonly idField?: keyof T;
 };
 
-export function Table<T>({ data, renderRow, columns, onRowClick, selectedId, idField = 'id' as keyof T }: Props<T>) {
+export function Table<T>({ data, renderRow, columns, onRowClick, selectedId, idField = 'id' as keyof T }: Readonly<Props<T>>) {
   if (columns && columns.length > 0) {
     return (
       <div className="overflow-x-auto">

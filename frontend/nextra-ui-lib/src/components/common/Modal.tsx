@@ -53,7 +53,7 @@ export default function Modal({ open, onClose, title, children }: Props) {
       `;
       document.head.appendChild(style);
       return () => {
-        document.head.removeChild(style);
+        style.remove();
       };
     }
   }, [open]);
@@ -63,11 +63,10 @@ export default function Modal({ open, onClose, title, children }: Props) {
   const modalContent = (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 z-0 bg-black/60 backdrop-blur-sm" 
+      <button
+        type="button"
+        className="absolute inset-0 z-0 bg-black/60 backdrop-blur-sm cursor-default"
         onClick={onClose}
-        role="button"
-        tabIndex={0}
         onKeyDown={(e) => e.key === 'Escape' && onClose?.()}
         aria-label="Close modal"
       />

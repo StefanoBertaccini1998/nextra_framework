@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '../components/common/ToastProvider';
+import { useToast, Button } from '@nextra/ui-lib';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import {
   fetchProperties,
@@ -89,12 +89,12 @@ export function PropertiesPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold text-text">Properties</h1>
-        <button
+        <Button
+          variant="success"
           onClick={() => setShowCreateModal(true)}
-          className="px-4 py-2 bg-success hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
         >
           Add Property
-        </button>
+        </Button>
       </div>
 
       {error && (
@@ -212,15 +212,16 @@ export function PropertiesPage() {
                     <div className="text-xl font-bold text-blue-600">
                       €{property.price ? property.price.toLocaleString() : '0'}
                     </div>
-                    <button
+                    <Button
+                      variant="primary"
+                      size="sm"
                       onClick={(e) => {
                         e.stopPropagation();
                         setEditingProperty(property);
                       }}
-                      className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       Edit
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

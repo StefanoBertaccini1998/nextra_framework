@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { LoadingScreen } from '@nextra/ui-lib';
-import { useToast } from '../components/common/ToastProvider';
+import { LoadingScreen, useToast, Button } from '@nextra/ui-lib';
 import { useAppDispatch } from '../hooks/redux';
 import { PropertyForm } from '../components/forms/PropertyForm';
 import { ClientForm } from '../components/forms/ClientForm';
@@ -120,24 +119,32 @@ export const DashboardPage: React.FC = () => {
           >
             <h3 className="text-lg font-medium text-text mb-4">Quick Actions</h3>
             <div className="flex gap-3">
-              <button
+              <Button
+                variant="success"
+                size="lg"
+                fullWidth
                 onClick={() => setShowCreatePropertyModal(true)}
-                className="flex-1 px-6 py-3 bg-success hover:bg-green-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                startIcon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                }
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
                 Add Property
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="success"
+                size="lg"
+                fullWidth
                 onClick={() => setShowCreateClientModal(true)}
-                className="flex-1 px-6 py-3 bg-success hover:bg-green-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                startIcon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                }
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
                 Add Client
-              </button>
+              </Button>
             </div>
           </motion.div>
 

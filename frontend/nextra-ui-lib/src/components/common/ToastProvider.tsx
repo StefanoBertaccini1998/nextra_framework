@@ -19,7 +19,13 @@ export const ToastProvider: React.FC<{ children?: React.ReactNode }> = ({ childr
 
   const addToast = React.useCallback((type: string, title: string, message?: string) => {
     const id = Math.random().toString(36).slice(2, 9);
-    const text = message ? `${title}${message ? `: ${message}` : ''}` : title;
+    // Fix nested ternary and template literal
+    let text: string;
+    if (message) {
+      text = `${title}: ${message}`;
+    } else {
+      text = title;
+    }
     // Debug log to help trace toast creation across app/lib boundary
     // If you don't see this log when calling addToast, the hook/context is not wired correctly.
     // eslint-disable-next-line no-console
@@ -31,8 +37,11 @@ export const ToastProvider: React.FC<{ children?: React.ReactNode }> = ({ childr
     setToasts((s: ToastItem[]) => s.filter((t) => t.id !== id));
   }, []);
 
+  // Memoize context value to prevent unnecessary re-renders
+  const contextValue = React.useMemo(() => ({ addToast }), [addToast]);
+
   return (
-    <ToastContext.Provider value={{ addToast }}>
+    <ToastContext.Provider value={contextValue}>
       {children}
       {/* aria-live region for accessibility; Toasts themselves are fixed-positioned */}
       <div aria-live="polite">

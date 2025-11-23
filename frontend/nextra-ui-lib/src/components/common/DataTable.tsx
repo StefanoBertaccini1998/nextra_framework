@@ -7,12 +7,12 @@ type Column<T> = {
 };
 
 type Props<T> = {
-  columns: Column<T>[];
-  data: T[];
-  onRowClick?: (item: T) => void;
+  readonly columns: Column<T>[];
+  readonly data: T[];
+  readonly onRowClick?: (item: T) => void;
 };
 
-export default function DataTable<T>({ columns, data, onRowClick }: Props<T>) {
+export default function DataTable<T>({ columns, data, onRowClick }: Readonly<Props<T>>) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -27,7 +27,7 @@ export default function DataTable<T>({ columns, data, onRowClick }: Props<T>) {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {data.map((row, i) => (
-            <tr key={i} onClick={() => onRowClick?.(row)} className={onRowClick ? 'cursor-pointer hover:bg-gray-50' : ''}>
+            <tr key={JSON.stringify(row)} onClick={() => onRowClick?.(row)} className={onRowClick ? 'cursor-pointer hover:bg-gray-50' : ''}>
               {columns.map((c) => (
                 <td key={c.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                   {c.render ? c.render(row) : (row as any)[c.key]}

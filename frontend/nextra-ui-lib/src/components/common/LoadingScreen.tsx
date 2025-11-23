@@ -1,11 +1,11 @@
 import React from 'react';
 
 type Props = {
-  isLoading?: boolean;
-  message?: string;
+  readonly isLoading?: boolean;
+  readonly message?: string;
 };
 
-export default function LoadingScreen({ isLoading = true, message }: Props) {
+export default function LoadingScreen({ isLoading = true, message }: Readonly<Props>) {
   if (!isLoading) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm" style={{ backgroundColor: 'var(--color-overlay)' }}>

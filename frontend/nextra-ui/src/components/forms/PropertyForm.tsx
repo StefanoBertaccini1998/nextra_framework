@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { ImageUpload } from '@nextra/ui-lib';
+import { ImageUpload, Button, ThemedInput, FormSection } from '@nextra/ui-lib';
 import type { Property } from '../../store/slices/propertiesSlice';
 
 interface PropertyFormProps {
-  initialValues?: Partial<Property>;
-  onSubmit: (values: Partial<Property>, files?: File[]) => void | Promise<void>;
-  onCancel?: () => void;
+  readonly initialValues?: Partial<Property>;
+  readonly onSubmit: (values: Partial<Property>, files?: File[]) => void | Promise<void>;
+  readonly onCancel?: () => void;
 }
 
-export function PropertyForm({ initialValues, onSubmit, onCancel }: PropertyFormProps) {
+export function PropertyForm({ initialValues, onSubmit, onCancel }: Readonly<PropertyFormProps>) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<Partial<Property>>(initialValues || {});
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -16,7 +16,10 @@ export function PropertyForm({ initialValues, onSubmit, onCancel }: PropertyForm
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    const finalValue = type === 'number' ? (value === '' ? undefined : Number(value)) : value;
+    let finalValue: string | number | undefined = value;
+    if (type === 'number') {
+      finalValue = value === '' ? undefined : Number(value);
+    }
     
     setFormData(prev => ({ ...prev, [name]: finalValue }));
     if (errors[name]) {
@@ -61,26 +64,19 @@ export function PropertyForm({ initialValues, onSubmit, onCancel }: PropertyForm
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Basic Information Section */}
-      <div className="rounded-lg p-6 border" style={{ backgroundColor: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-        <h3 className="text-lg font-semibold mb-4" style={{ color: 'white' }}>Basic Information</h3>
-        
-        <div className="grid grid-cols-1 gap-4">
+      <FormSection title="Basic Information">
           {/* Title - Full Width */}
-          <div>
-            <label htmlFor="title" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-              Property Title <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={formData.title || ''}
-              onChange={handleChange}
-              placeholder="Modern Apartment in City Center"
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-            />
-            {errors.title && <p className="mt-1 text-sm text-red-500">{errors.title}</p>}
-          </div>
+          <ThemedInput
+            label="Property Title"
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title || ''}
+            onChange={handleChange}
+            placeholder="Modern Apartment in City Center"
+            required
+            error={errors.title}
+          />
 
           {/* Type and Status - Side by Side */}
           <div className="grid grid-cols-2 gap-4">
@@ -128,167 +124,121 @@ export function PropertyForm({ initialValues, onSubmit, onCancel }: PropertyForm
 
           {/* Price and Size - Side by Side */}
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="price" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-                Price (€) <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                value={formData.price || ''}
-                onChange={handleChange}
-                placeholder="250000"
-                min="0"
-                step="1000"
-                className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-              />
-              {errors.price && <p className="mt-1 text-sm text-red-500">{errors.price}</p>}
-            </div>
+            <ThemedInput
+              label="Price (€)"
+              type="number"
+              id="price"
+              name="price"
+              value={formData.price || ''}
+              onChange={handleChange}
+              placeholder="250000"
+              min="0"
+              step="1000"
+              required
+              error={errors.price}
+            />
 
-            <div>
-              <label htmlFor="size" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-                Size (m²) <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                id="size"
-                name="size"
-                value={formData.size || ''}
-                onChange={handleChange}
-                placeholder="85"
-                min="0"
-                step="1"
-                className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-              />
-              {errors.size && <p className="mt-1 text-sm text-red-500">{errors.size}</p>}
-            </div>
+            <ThemedInput
+              label="Size (m²)"
+              type="number"
+              id="size"
+              name="size"
+              value={formData.size || ''}
+              onChange={handleChange}
+              placeholder="85"
+              min="0"
+              step="1"
+              required
+              error={errors.size}
+            />
           </div>
-        </div>
-      </div>
+      </FormSection>
 
       {/* Location Section */}
-      <div className="rounded-lg p-6 border" style={{ backgroundColor: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-        <h3 className="text-lg font-semibold mb-4" style={{ color: 'white' }}>Location</h3>
-        
-        <div className="grid grid-cols-1 gap-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="location" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-                City/Location <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                value={formData.location || ''}
-                onChange={handleChange}
-                placeholder="Milan"
-                className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-              />
-              {errors.location && <p className="mt-1 text-sm text-red-500">{errors.location}</p>}
-            </div>
+      <FormSection title="Location">
+        <div className="grid grid-cols-2 gap-4">
+            <ThemedInput
+              label="City/Location"
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location || ''}
+              onChange={handleChange}
+              placeholder="Milan"
+              required
+              error={errors.location}
+            />
 
-            <div>
-              <label htmlFor="address" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-                Full Address <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                value={formData.address || ''}
-                onChange={handleChange}
-                placeholder="Via Roma 123, 20100 Milano"
-                className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-              />
-              {errors.address && <p className="mt-1 text-sm text-red-500">{errors.address}</p>}
-            </div>
+            <ThemedInput
+              label="Full Address"
+              type="text"
+              id="address"
+              name="address"
+              value={formData.address || ''}
+              onChange={handleChange}
+              placeholder="Via Roma 123, 20100 Milano"
+              required
+              error={errors.address}
+            />
           </div>
-        </div>
-      </div>
+      </FormSection>
 
       {/* Property Details Section */}
-      <div className="rounded-lg p-6 border" style={{ backgroundColor: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-        <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-text)' }}>Property Details</h3>
-        
+      <FormSection title="Property Details">
         <div className="grid grid-cols-4 gap-4">
-          <div>
-            <label htmlFor="bedrooms" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-              Bedrooms
-            </label>
-            <input
-              type="number"
-              id="bedrooms"
-              name="bedrooms"
-              value={formData.bedrooms || ''}
-              onChange={handleChange}
-              placeholder="2"
-              min="0"
-              step="1"
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-            />
-          </div>
+          <ThemedInput
+            label="Bedrooms"
+            type="number"
+            id="bedrooms"
+            name="bedrooms"
+            value={formData.bedrooms || ''}
+            onChange={handleChange}
+            placeholder="2"
+            min="0"
+            step="1"
+          />
 
-          <div>
-            <label htmlFor="bathrooms" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-              Bathrooms
-            </label>
-            <input
-              type="number"
-              id="bathrooms"
-              name="bathrooms"
-              value={formData.bathrooms || ''}
-              onChange={handleChange}
-              placeholder="1"
-              min="0"
-              step="1"
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-            />
-          </div>
+          <ThemedInput
+            label="Bathrooms"
+            type="number"
+            id="bathrooms"
+            name="bathrooms"
+            value={formData.bathrooms || ''}
+            onChange={handleChange}
+            placeholder="1"
+            min="0"
+            step="1"
+          />
 
-          <div>
-            <label htmlFor="floors" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-              Floors
-            </label>
-            <input
-              type="number"
-              id="floors"
-              name="floors"
-              value={formData.floors || ''}
-              onChange={handleChange}
-              placeholder="1"
-              min="0"
-              step="1"
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-            />
-          </div>
+          <ThemedInput
+            label="Floors"
+            type="number"
+            id="floors"
+            name="floors"
+            value={formData.floors || ''}
+            onChange={handleChange}
+            placeholder="1"
+            min="0"
+            step="1"
+          />
 
-          <div>
-            <label htmlFor="yearBuilt" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
-              Year Built
-            </label>
-            <input
-              type="number"
-              id="yearBuilt"
-              name="yearBuilt"
-              value={formData.yearBuilt || ''}
-              onChange={handleChange}
-              placeholder="2020"
-              min="1800"
-              max={new Date().getFullYear()}
-              step="1"
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
-            />
-          </div>
+          <ThemedInput
+            label="Year Built"
+            type="number"
+            id="yearBuilt"
+            name="yearBuilt"
+            value={formData.yearBuilt || ''}
+            onChange={handleChange}
+            placeholder="2020"
+            min="1800"
+            max={new Date().getFullYear()}
+            step="1"
+          />
         </div>
-      </div>
+      </FormSection>
 
       {/* Description Section */}
-      <div className="rounded-lg p-6 border" style={{ backgroundColor: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-        <h3 className="text-lg font-semibold mb-4" style={{ color: 'white' }}>Description</h3>
-        
-        <div className="space-y-4">
+      <FormSection title="Description">
           <div>
             <label htmlFor="description" className="block text-sm font-medium mb-1" style={{ color: 'var(--color-textSecondary)' }}>
               Description <span className="text-red-500">*</span>
@@ -319,12 +269,10 @@ export function PropertyForm({ initialValues, onSubmit, onCancel }: PropertyForm
               className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary resize-y" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text)', borderColor: 'var(--color-border)' }}
             />
           </div>
-        </div>
-      </div>
+      </FormSection>
 
       {/* Images Section */}
-      <div className="rounded-lg p-6 border" style={{ backgroundColor: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-        <h3 className="text-lg font-semibold mb-4" style={{ color: 'white' }}>Images</h3>
+      <FormSection title="Images">
         <ImageUpload
           value={formData.images || []}
           onChange={handleImagesChange}
@@ -333,29 +281,31 @@ export function PropertyForm({ initialValues, onSubmit, onCancel }: PropertyForm
           label="Upload Property Images"
           helperText="Drag and drop images here, or click to select files (Max 10 images, 5MB each)"
         />
-      </div>
+      </FormSection>
 
       {/* Form Actions */}
       <div className="flex justify-end gap-3 pt-4">
         {onCancel && (
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="px-6 py-2 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-80"
-            style={{ backgroundColor: 'var(--color-surfaceHover)', color: 'var(--color-text)' }}
           >
             Cancel
-          </button>
+          </Button>
         )}
-        <button
+        <Button
           type="submit"
+          variant="primary"
+          isLoading={isSubmitting}
           disabled={isSubmitting}
-          className="px-6 py-2 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-600"
-          style={{ backgroundColor: 'var(--color-primary)', color: 'white' }}
         >
-          {isSubmitting ? 'Saving...' : (initialValues?.id ? 'Update Property' : 'Create Property')}
-        </button>
+          {(() => {
+            if (isSubmitting) return 'Saving...';
+            return initialValues?.id ? 'Update Property' : 'Create Property';
+          })()}
+        </Button>
       </div>
     </form>
   );

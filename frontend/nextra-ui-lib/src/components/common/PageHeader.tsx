@@ -1,12 +1,12 @@
 import React from 'react';
 
 type Props = {
-  title: string;
-  subtitle?: string;
-  actions?: React.ReactNode;
+  readonly title: string;
+  readonly subtitle?: string;
+  readonly actions?: React.ReactNode;
 };
 
-export default function PageHeader({ title, subtitle, actions }: Props) {
+export default function PageHeader({ title, subtitle, actions }: Readonly<Props>) {
   return (
     <div className="mb-6 flex items-center justify-between">
       <div>

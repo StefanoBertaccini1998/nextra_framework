@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useToast } from '../components/common/ToastProvider';
+import { useToast, Button } from '@nextra/ui-lib';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import {
   fetchPropertyById,
@@ -24,7 +24,7 @@ export function PropertyDetailPage() {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchPropertyById(parseInt(id)))
+      dispatch(fetchPropertyById(Number.parseInt(id, 10)))
         .unwrap()
         .catch((err) => {
           addToast('error', 'Failed to load property', err.message || 'Connection error');
@@ -87,33 +87,35 @@ export function PropertyDetailPage() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <button
+        <Button
+          variant="primary"
           onClick={() => navigate('/properties')}
-          className="flex items-center px-4 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
+          startIcon={
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+          }
         >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
           Back to Properties
-        </button>
+        </Button>
         <div className="flex gap-3">
-          <button
+          <Button
+            variant="primary"
             onClick={() => setShowEditModal(true)}
-            className="px-4 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
           >
             Edit Property
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="danger"
             onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-2 bg-error hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
           >
             Delete Property
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -263,7 +265,7 @@ export function PropertyDetailPage() {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-99999 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowDeleteConfirm(false)}></div>
           <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Confirm Delete</h3>
@@ -271,19 +273,20 @@ export function PropertyDetailPage() {
               Are you sure you want to delete this property? This action cannot be undone.
             </p>
             <div className="flex gap-3 justify-end">
-              <button
+              <Button
+                variant="outline"
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="danger"
                 onClick={handleDeleteProperty}
+                isLoading={loading}
                 disabled={loading}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50"
               >
                 {loading ? 'Deleting...' : 'Delete Property'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

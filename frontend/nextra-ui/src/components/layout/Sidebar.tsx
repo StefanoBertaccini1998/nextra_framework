@@ -132,7 +132,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
           <div className={`transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 hidden'}`}>
             v0.1 · MVP
           </div>
-          <div className={`transition-all duration-300 ${!isOpen ? 'opacity-100 flex justify-center' : 'opacity-0 hidden'}`}>
+          <div className={`transition-all duration-300 ${isOpen ? 'opacity-0 hidden' : 'opacity-100 flex justify-center'}`}>
             v0.1
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { ThemeProvider } from './theme/ThemeProvider';
-import { ToastProvider } from './components/common/ToastProvider';
+import { ToastProvider } from '@nextra/ui-lib';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from './routes/AppRoutes';
 

@@ -17,14 +17,14 @@ export interface FormField {
 }
 
 export interface FormProps<T = Record<string, any>> {
-  fields: FormField[];
-  initialValues?: Partial<T>;
-  onSubmit: (values: T) => void | Promise<void>;
-  onCancel?: () => void;
-  submitLabel?: string;
-  cancelLabel?: string;
-  loading?: boolean;
-  columns?: 1 | 2;
+  readonly fields: FormField[];
+  readonly initialValues?: Partial<T>;
+  readonly onSubmit: (values: T) => void | Promise<void>;
+  readonly onCancel?: () => void;
+  readonly submitLabel?: string;
+  readonly cancelLabel?: string;
+  readonly loading?: boolean;
+  readonly columns?: 1 | 2;
 }
 
 export function Form<T extends Record<string, any>>({
@@ -36,7 +36,7 @@ export function Form<T extends Record<string, any>>({
   cancelLabel = 'Cancel',
   loading = false,
   columns = 1,
-}: FormProps<T>) {
+}: Readonly<FormProps<T>>) {
   const [values, setValues] = useState<Partial<T>>(initialValues);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -86,13 +86,13 @@ export function Form<T extends Record<string, any>>({
     const newErrors: Record<string, string> = {};
     let isValid = true;
 
-    fields.forEach((field) => {
+    for (const field of fields) {
       const error = validateField(field.name, values[field.name]);
       if (error) {
         newErrors[field.name] = error;
         isValid = false;
       }
-    });
+    }
 
     setErrors(newErrors);
     return isValid;
@@ -103,9 +103,9 @@ export function Form<T extends Record<string, any>>({
     
     // Mark all fields as touched
     const allTouched: Record<string, boolean> = {};
-    fields.forEach((field) => {
+    for (const field of fields) {
       allTouched[field.name] = true;
-    });
+    }
     setTouched(allTouched);
 
     if (validateAll()) {
@@ -114,7 +114,7 @@ export function Form<T extends Record<string, any>>({
   };
 
   const renderField = (field: FormField) => {
-    const value = values[field.name] || '';
+    const value = values[field.name] ?? '';
     const error = touched[field.name] && errors[field.name];
     const commonClasses = `w-full px-3 py-2 border rounded-md shadow-sm transition-colors ${
       error
@@ -164,7 +164,7 @@ export function Form<T extends Record<string, any>>({
             type="number"
             name={field.name}
             value={value}
-            onChange={(e) => handleChange(field.name, parseFloat(e.target.value) || '')}
+            onChange={(e) => handleChange(field.name, Number.parseFloat(e.target.value) || '')}
             onBlur={() => handleBlur(field.name)}
             placeholder={field.placeholder}
             required={field.required}

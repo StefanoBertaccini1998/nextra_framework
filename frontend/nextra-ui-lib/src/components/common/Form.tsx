@@ -1,12 +1,12 @@
 import React from 'react';
 
 type Props = {
-  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
-  children?: React.ReactNode;
-  className?: string;
+  readonly onSubmit: (e: React.FormEvent) => void;
+  readonly children: React.ReactNode;
+  readonly className?: string;
 };
 
-export default function Form({ onSubmit, children, className }: Props) {
+export default function Form({ onSubmit, children, className }: Readonly<Props>) {
   return (
     <form
       onSubmit={(e) => {

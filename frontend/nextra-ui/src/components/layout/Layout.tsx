@@ -5,8 +5,8 @@ import { AiHelper } from './AiHelper';
 import ThemeSwitcher from '../common/ThemeSwitcher';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [isAiHelperOpen, setAiHelperOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isAiHelperOpen, setIsAiHelperOpen] = useState(false);
   
 
   return (
@@ -14,7 +14,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {/* Sidebar */}
       <Sidebar 
         isOpen={isSidebarOpen} 
-        onToggle={() => setSidebarOpen(!isSidebarOpen)}
+        onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
       />
 
       {/* Main Content */}
@@ -37,7 +37,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {/* AI Helper */}
       <AiHelper 
         isOpen={isAiHelperOpen} 
-        onClose={() => setAiHelperOpen(!isAiHelperOpen)} // Toggle the state when clicking the handle or close button
+        onClose={() => setIsAiHelperOpen(!isAiHelperOpen)} // Toggle the state when clicking the handle or close button
       />
 
       {/* Theme Switcher - positioned to move with AI Helper */}
