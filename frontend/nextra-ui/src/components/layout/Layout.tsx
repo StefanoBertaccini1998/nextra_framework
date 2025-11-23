@@ -1,0 +1,56 @@
+import React, { useState } from 'react';
+import { Sidebar } from './Sidebar';
+import { Footer } from './Footer';
+import { AiHelper } from './AiHelper';
+import ThemeSwitcher from '../common/ThemeSwitcher';
+
+export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isAiHelperOpen, setIsAiHelperOpen] = useState(false);
+  
+
+  return (
+    <div className="h-screen bg-background flex">
+      {/* Sidebar */}
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+      />
+
+      {/* Main Content */}
+  {/** main content; offsets are computed above */}
+
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+        <main
+          className={`flex-1 transition-all duration-200 overflow-auto p-6 ${isAiHelperOpen ? 'mr-80' : ''} ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}
+        >
+          <div className="container mx-auto h-full">
+            {children}
+          </div>
+        </main>
+
+        <div className={`flex-none transition-all duration-200 ${isAiHelperOpen ? 'mr-80' : ''} ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
+          <Footer />
+        </div>
+      </div>
+
+      {/* AI Helper */}
+      <AiHelper 
+        isOpen={isAiHelperOpen} 
+        onClose={() => setIsAiHelperOpen(!isAiHelperOpen)} // Toggle the state when clicking the handle or close button
+      />
+
+      {/* Theme Switcher - positioned to move with AI Helper */}
+      <div 
+        className="transition-all duration-200"
+        style={{ 
+          position: 'fixed',
+          bottom: '1.5rem',
+          right: isAiHelperOpen ? '336px' : '1.5rem' // 320px + 16px when AiHelper is open
+        }}
+      >
+        <ThemeSwitcher />
+      </div>
+    </div>
+  );
+};

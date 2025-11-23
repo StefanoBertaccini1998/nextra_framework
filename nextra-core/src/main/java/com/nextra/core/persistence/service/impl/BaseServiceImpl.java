@@ -1,8 +1,9 @@
-package com.nextra.core.persistence.service;
+package com.nextra.core.persistence.service.impl;
 
 import com.nextra.core.common.exceptions.ResourceNotFoundException;
 import com.nextra.core.persistence.model.BaseEntity;
 import com.nextra.core.persistence.repository.BaseRepository;
+import com.nextra.core.persistence.service.BaseService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

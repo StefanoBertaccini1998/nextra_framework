@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -27,40 +28,38 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
     public static final String MDC_REMOTE_ADDR = "remoteAddr";
     public static final String MDC_USER = "user";
 
+    @Autowired
+    private HibernateStatsInterceptor hibernateStats;
+
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
         String correlationId = extractOrGenerateCorrelationId(request);
-        String method = request.getMethod();
-        String path = request.getRequestURI();
-        String remote = request.getRemoteAddr();
-
-        // NOTE: Authentication (Spring Security) may run later in the chain; we’ll set a best-effort user here,
-        // and a SecurityContext listener (optional) can update MDC.user once authentication completes.
-        String user = extractUser(request);
-
-        // Populate MDC for all logs in this thread
         MDC.put(MDC_CORRELATION_ID, correlationId);
-        MDC.put(MDC_METHOD, method);
-        MDC.put(MDC_PATH, path);
-        MDC.put(MDC_REMOTE_ADDR, remote);
-        MDC.put(MDC_USER, user);
+        MDC.put(MDC_METHOD, request.getMethod());
+        MDC.put(MDC_PATH, request.getRequestURI());
+        MDC.put(MDC_REMOTE_ADDR, request.getRemoteAddr());
+        MDC.put(MDC_USER, extractUser(request));
 
-        // Echo header back to the client
         response.setHeader(CORRELATION_HEADER, correlationId);
 
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
+
         try {
             filterChain.doFilter(request, response);
         } finally {
-            long tookMs = System.currentTimeMillis() - start;
-            log.info("Handled {} {} -> {} ({} ms)", method, path, response.getStatus(), tookMs);
+            long durationMs = (System.nanoTime() - start) / 1_000_000;
+            int status = response.getStatus();
 
-            // Always clean up
+            log.info("Handled {} {} -> {} ({} ms)",
+                    request.getMethod(),
+                    request.getRequestURI(),
+                    status,
+                    durationMs);
+
             MDC.clear();
         }
     }

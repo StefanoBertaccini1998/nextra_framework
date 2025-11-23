@@ -1,9 +1,8 @@
 package com.nextra.core.persistence.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -11,7 +10,10 @@ import org.hibernate.annotations.SQLRestriction;
 @MappedSuperclass
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@ToString(callSuper = true)
 @EntityListeners(AuditListener.class)
 @SQLDelete(sql = "UPDATE #{#entityName} SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted = false")

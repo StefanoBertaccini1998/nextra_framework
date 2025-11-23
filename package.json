@@ -1,0 +1,25 @@
+{
+  "name": "nextra-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "packageManager": "pnpm@8.9.0",
+  "workspaces": [
+    "frontend/*",
+    "nextra-core",
+    "nextra-re"
+  ],
+  "scripts": {
+    "dev:lib": "pnpm --filter @nextra/ui-lib dev",
+    "dev:re": "pnpm --filter @nextra/re-ui dev",
+    "build:lib": "pnpm --filter @nextra/ui-lib build",
+    "build:ui": "pnpm --filter nextra-ui build",
+    "build:re": "pnpm --filter @nextra/re-ui build",
+    "build": "pnpm run build:lib && pnpm run build:ui && pnpm run build:re"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "@types/minimatch": "^6.0.0",
+    "autoprefixer": "^10.4.16",
+    "vite": "7.2.2"
+  }
+}

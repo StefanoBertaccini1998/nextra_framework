@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="128" viewBox="0 0 512 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon -->
+  <rect x="0" y="0" width="128" height="128" rx="24" fill="#4F46E5"/>
+  <path d="M38 89V39H48L80 75V39H90V89H80L48 53V89H38Z" fill="white"/>
+  <path d="M24 104L104 24" stroke="white" stroke-opacity="0.2" stroke-width="4"/>
+  <path d="M16 112L112 16" stroke="white" stroke-opacity="0.1" stroke-width="4"/>
+  
+  <!-- Text -->
+  <path d="M168 89V39H178L210 75V39H220V89H210L178 53V89H168Z" fill="#4F46E5"/>
+  <path d="M240 89V39H290V49H250V59H285V69H250V79H290V89H240Z" fill="#4F46E5"/>
+  <path d="M310 89V39H320L352 75V39H362V89H352L320 53V89H310Z" fill="#4F46E5"/>
+  <path d="M382 89V39H392L424 75V39H434V89H424L392 53V89H382Z" fill="#4F46E5"/>
+  <path d="M454 89V39H504V49H464V59H499V69H464V79H504V89H454Z" fill="#4F46E5"/>
+</svg>

@@ -3,10 +3,16 @@ package com.nextra.core.security.model;
 import com.nextra.core.persistence.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.util.Set;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 @Table(name = "users")
 public class User extends BaseEntity {
 

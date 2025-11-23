@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="256" viewBox="0 0 1024 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4361EE"/>
+      <stop offset="100%" stop-color="#7B2CBF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- NXE Monogram -->
+  <g transform="translate(0, 0)">
+    <!-- N part -->
+    <path d="M0 0h48l80 120v-120h48v180h-48l-80-120v120h-48z" fill="url(#logoGradient)"/>
+    
+    <!-- X part (created with negative space) -->
+    <path d="M200 0l-60 90 60 90h-52l-35-52.5L148 180h52l-60-90 60-90z" fill="url(#logoGradient)"/>
+    
+    <!-- E part -->
+    <path d="M320 0v40h-80v50h70v40h-70v50h80v40h-120V0z" fill="url(#logoGradient)"/>
+  </g>
+
+  <!-- NEXTRA Text -->
+  <text x="420" y="180" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="144" fill="#1A1A2E">
+    NEXTRA
+  </text>
+</svg>
