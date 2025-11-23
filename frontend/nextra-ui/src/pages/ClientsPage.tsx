@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { DetailView, Button, useToast } from '@nextra/ui-lib';
+import { DetailView, Button, useToast, OffCanvas } from '@nextra/ui-lib';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchClients, deleteClient as deleteClientThunk, setSelectedClient, createClient as createClientThunk } from '../store/slices/clientsSlice';
 import type { Client } from '../store/slices/clientsSlice';
 import { ClientForm } from '../components/forms/ClientForm';
-import OffCanvas from '../components/common/OffCanvas';
 
 export function ClientsPage() {
   const dispatch = useAppDispatch();

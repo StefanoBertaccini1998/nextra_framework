@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useToast, Button } from '@nextra/ui-lib';
+import { useToast, Button, OffCanvas } from '@nextra/ui-lib';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import {
   fetchPropertyById,
@@ -10,7 +10,6 @@ import {
   type Property,
 } from '../store/slices/propertiesSlice';
 import { PropertyForm } from '../components/forms/PropertyForm';
-import OffCanvas from '../components/common/OffCanvas';
 
 export function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();

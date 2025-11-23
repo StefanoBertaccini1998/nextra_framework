@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { LoadingScreen, useToast, Button } from '@nextra/ui-lib';
+import { LoadingScreen, useToast, Button, OffCanvas } from '@nextra/ui-lib';
 import { useAppDispatch } from '../hooks/redux';
 import { PropertyForm } from '../components/forms/PropertyForm';
 import { ClientForm } from '../components/forms/ClientForm';
-import OffCanvas from '../components/common/OffCanvas';
 import {
   createProperty as createPropertyThunk,
   uploadPropertyImages,

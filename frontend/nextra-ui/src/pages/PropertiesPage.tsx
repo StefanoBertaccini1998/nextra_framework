@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast, Button } from '@nextra/ui-lib';
+import { useToast, Button, OffCanvas } from '@nextra/ui-lib';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import {
   fetchProperties,
@@ -10,7 +10,6 @@ import {
   type Property,
 } from '../store/slices/propertiesSlice';
 import { PropertyForm } from '../components/forms/PropertyForm';
-import OffCanvas from '../components/common/OffCanvas';
 
 export function PropertiesPage() {
   const navigate = useNavigate();

@@ -82,11 +82,11 @@ export default function Modal({ open, onClose, title, children, variant = 'modal
       <div className="relative z-50 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col" style={{ backgroundColor: 'var(--color-surface)' }}>
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 rounded-t-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
-          <h2 className="text-xl font-semibold" style={{ color: 'white' }}>{title}</h2>
+          <h2 className="text-xl font-semibold" style={{ color: 'var(--color-navbarText)' }}>{title}</h2>
           <button 
             onClick={onClose} 
             className="transition-colors p-1 hover:opacity-70"
-            style={{ color: 'white' }}
+            style={{ color: 'var(--color-navbarText)' }}
             aria-label="Close"
           >
             <svg 
