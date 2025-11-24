@@ -6,6 +6,7 @@ import { DashboardPage } from '../pages/DashboardPage';
 import { ClientsPage } from '../pages/ClientsPage';
 import { PropertiesPage } from '../pages/PropertiesPage';
 import { PropertyDetailPage } from '../pages/PropertyDetailPage';
+import { AgendaPage } from '../pages/AgendaPage';
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -43,6 +44,7 @@ export const AppRoutes = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="agenda" element={<AgendaPage />} />
               <Route path="properties" element={<PropertiesPage />} />
               <Route path="properties/:id" element={<PropertyDetailPage />} />
               <Route path="clients" element={<ClientsPage />} />

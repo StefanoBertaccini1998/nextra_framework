@@ -8,7 +8,8 @@ import {
   Cog6ToothIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  UserCircleIcon
+  UserCircleIcon,
+  CalendarIcon
 } from '@heroicons/react/24/outline';
 import { useTheme } from '../../theme/ThemeProvider';
 
@@ -25,6 +26,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { path: '/dashboard', icon: HomeIcon, label: 'Dashboard' },
+  { path: '/agenda', icon: CalendarIcon, label: 'Agenda' },
   { path: '/analytics', icon: ChartBarIcon, label: 'Analytics' },
   { path: '/clients', icon: UserGroupIcon, label: 'Clients' },
   { path: '/properties', icon: BuildingOfficeIcon, label: 'Properties' },

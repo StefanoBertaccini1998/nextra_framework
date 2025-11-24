@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export type FieldType = 'text' | 'email' | 'tel' | 'number' | 'textarea' | 'select' | 'date';
+export type FieldType = 'text' | 'email' | 'tel' | 'number' | 'textarea' | 'select' | 'date' | 'datetime-local';
 
 export interface FormField {
   name: string;

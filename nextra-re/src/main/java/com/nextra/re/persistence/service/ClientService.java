@@ -13,4 +13,5 @@ public interface ClientService extends BaseService<Client, Long> {
     Optional<Client> findByFiscalId(String fiscalId);
     List<Client> findByPreferredBudgetMinGreaterThanEqual(BigDecimal min);
     List<Client> findByPreferredBudgetMaxLessThanEqual(BigDecimal max);
+    List<Client> findByBudgetRange(BigDecimal min, BigDecimal max);
 }

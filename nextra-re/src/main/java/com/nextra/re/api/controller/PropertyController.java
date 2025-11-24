@@ -9,15 +9,21 @@ import com.nextra.re.persistence.service.AccountService;
 import com.nextra.re.persistence.service.CategoryService;
 import com.nextra.re.persistence.service.PropertyImageService;
 import com.nextra.re.persistence.service.PropertyService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller for managing properties.
+ * Uses DTOs to avoid exposing entities.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api/properties")
@@ -40,27 +46,102 @@ public class PropertyController extends BaseController<Property, Long> {
         this.categoryService = categoryService;
         this.propertyImageService = propertyImageService;
     }
+    
+    // Override create to use DTO
+    @Override
+    @PostMapping
+    public ResponseEntity<ApiResponse<Property>> create(@RequestBody Property entity) {
+        throw new UnsupportedOperationException("Use POST /api/properties/new with PropertyRequest instead");
+    }
+    
+    // Override update to use DTO
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Property>> update(@PathVariable Long id, @RequestBody Property entity) {
+        throw new UnsupportedOperationException("Use PUT /api/properties/{id}/update with PropertyRequest instead");
+    }
+    
+    // Override delete to require ADMIN
+    @Override
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
+        return super.delete(id);
+    }
+    
+    // Override getById to return DTO
+    @Override
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Property>> getById(@PathVariable Long id) {
+        return propertyService.findById(id)
+                .map(property -> ResponseEntity.ok(ApiResponse.ok(property)))
+                .orElseGet(() -> ResponseEntity.ok(ApiResponse.ok(null)));
+    }
+
+    /**
+     * Create new property with DTO
+     */
+    @PostMapping("/new")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')")
+    public ResponseEntity<ApiResponse<PropertyResponse>> createProperty(@Valid @RequestBody PropertyRequest request) {
+        log.debug("Creating property: {}", request.getTitle());
+        Property property = toEntity(request);
+        Property saved = propertyService.save(property);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok(toResponse(saved)));
+    }
+    
+    /**
+     * Update property with DTO
+     */
+    @PutMapping("/{id}/update")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')")
+    public ResponseEntity<ApiResponse<PropertyResponse>> updateProperty(
+            @PathVariable Long id,
+            @Valid @RequestBody PropertyRequest request) {
+        log.debug("Updating property {}", id);
+        return propertyService.findById(id)
+                .map(existing -> {
+                    updateEntityFromRequest(existing, request);
+                    Property updated = propertyService.save(existing);
+                    return ResponseEntity.ok(ApiResponse.ok(toResponse(updated)));
+                })
+                .orElseGet(() -> ResponseEntity.ok(ApiResponse.ok(null)));
+    }
 
     @GetMapping("/owner/{ownerId}")
-    public ResponseEntity<ApiResponse<List<Property>>> getByOwner(@PathVariable Long ownerId) {
-        return ResponseEntity.ok(ApiResponse.ok(propertyService.findByOwner(ownerId)));
+    public ResponseEntity<ApiResponse<List<PropertyResponse>>> getByOwner(@PathVariable Long ownerId) {
+        List<PropertyResponse> responses = propertyService.findByOwner(ownerId).stream()
+                .map(this::toResponse)
+                .toList();
+        return ResponseEntity.ok(ApiResponse.ok(responses));
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<ApiResponse<List<Property>>> getByCategory(@PathVariable Long categoryId) {
-        return ResponseEntity.ok(ApiResponse.ok(propertyService.findByCategory(categoryId)));
+    public ResponseEntity<ApiResponse<List<PropertyResponse>>> getByCategory(@PathVariable Long categoryId) {
+        List<PropertyResponse> responses = propertyService.findByCategory(categoryId).stream()
+                .map(this::toResponse)
+                .toList();
+        return ResponseEntity.ok(ApiResponse.ok(responses));
     }
 
     @GetMapping("/price")
-    public ResponseEntity<ApiResponse<List<Property>>> getByPriceRange(
+    public ResponseEntity<ApiResponse<List<PropertyResponse>>> getByPriceRange(
             @RequestParam Double min,
             @RequestParam Double max
     ) {
-        return ResponseEntity.ok(ApiResponse.ok(propertyService.findByPriceRange(min, max)));
+        List<PropertyResponse> responses = propertyService.findByPriceRange(min, max).stream()
+                .map(this::toResponse)
+                .toList();
+        return ResponseEntity.ok(ApiResponse.ok(responses));
     }
 
     private Property toEntity(PropertyRequest dto) {
         Property entity = new Property();
+        updateEntityFromRequest(entity, dto);
+        return entity;
+    }
+    
+    private void updateEntityFromRequest(Property entity, PropertyRequest dto) {
         entity.setTitle(dto.getTitle());
         entity.setLocation(dto.getLocation());
         entity.setAddress(dto.getAddress());
@@ -82,8 +163,6 @@ public class PropertyController extends BaseController<Property, Long> {
 
         if (dto.getCategoryId() != null)
             categoryService.findById(dto.getCategoryId()).ifPresent(entity::setCategory);
-
-        return entity;
     }
 
 

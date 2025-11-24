@@ -44,4 +44,10 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, Long> implements 
     public List<Client> findByPreferredBudgetMaxLessThanEqual(BigDecimal max) {
         return clientRepository.findByPreferredBudgetMaxLessThanEqual(max);
     }
+    
+    @Override
+    public List<Client> findByBudgetRange(BigDecimal min, BigDecimal max) {
+        // Find clients whose budget range overlaps with the given range
+        return clientRepository.findByPreferredBudgetMinLessThanEqualAndPreferredBudgetMaxGreaterThanEqual(max, min);
+    }
 }

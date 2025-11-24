@@ -19,4 +19,7 @@ public interface ClientRepository extends BaseRepository<Client, Long> {
     List<Client> findByPreferredBudgetMinGreaterThanEqual(BigDecimal min);
 
     List<Client> findByPreferredBudgetMaxLessThanEqual(BigDecimal max);
+    
+    // Find clients whose budget range overlaps with the given range
+    List<Client> findByPreferredBudgetMinLessThanEqualAndPreferredBudgetMaxGreaterThanEqual(BigDecimal max, BigDecimal min);
 }

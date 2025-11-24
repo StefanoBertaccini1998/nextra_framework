@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DetailView, Button, useToast, OffCanvas } from '@nextra/ui-lib';
+import { DetailView, Button, useToast, Modal } from '@nextra/ui-lib';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchClients, deleteClient as deleteClientThunk, setSelectedClient, createClient as createClientThunk } from '../store/slices/clientsSlice';
 import type { Client } from '../store/slices/clientsSlice';
@@ -172,7 +172,7 @@ export function ClientsPage() {
       </div>
 
       {/* Create Client Modal */}
-      <OffCanvas
+      <Modal
         open={showCreateModal}
         onClose={() => setShowCreateModal(false)}
         title="Add New Client"
@@ -181,7 +181,7 @@ export function ClientsPage() {
           onSubmit={handleCreateClient}
           onCancel={() => setShowCreateModal(false)}
         />
-      </OffCanvas>
+      </Modal>
     </div>
   );
 }
