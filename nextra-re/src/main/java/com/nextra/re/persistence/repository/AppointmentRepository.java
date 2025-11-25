@@ -3,6 +3,8 @@ package com.nextra.re.persistence.repository;
 import com.nextra.core.persistence.repository.BaseRepository;
 import com.nextra.re.persistence.model.Appointment;
 import com.nextra.re.persistence.model.AppointmentStatus;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -21,11 +23,15 @@ public interface AppointmentRepository extends BaseRepository<Appointment, Long>
 
     List<Appointment> findByUserIdAndStatus(Long userId, AppointmentStatus status);
 
-    List<Appointment> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
+    @Query("SELECT a FROM Appointment a LEFT JOIN FETCH a.user LEFT JOIN FETCH a.client LEFT JOIN FETCH a.property WHERE a.startTime BETWEEN :start AND :end")
+    List<Appointment> findByStartTimeBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    List<Appointment> findByUserIdAndStartTimeBetween(Long userId, LocalDateTime start, LocalDateTime end);
+    @Query("SELECT a FROM Appointment a LEFT JOIN FETCH a.user LEFT JOIN FETCH a.client LEFT JOIN FETCH a.property WHERE a.user.id = :userId AND a.startTime BETWEEN :start AND :end")
+    List<Appointment> findByUserIdAndStartTimeBetween(@Param("userId") Long userId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    List<Appointment> findByUserIdAndStartTimeAfter(Long userId, LocalDateTime startTime);
+    @Query("SELECT a FROM Appointment a LEFT JOIN FETCH a.user LEFT JOIN FETCH a.client LEFT JOIN FETCH a.property WHERE a.user.id = :userId AND a.startTime > :startTime")
+    List<Appointment> findByUserIdAndStartTimeAfter(@Param("userId") Long userId, @Param("startTime") LocalDateTime startTime);
 
-    List<Appointment> findByUserIdAndStartTimeBefore(Long userId, LocalDateTime startTime);
+    @Query("SELECT a FROM Appointment a LEFT JOIN FETCH a.user LEFT JOIN FETCH a.client LEFT JOIN FETCH a.property WHERE a.user.id = :userId AND a.startTime < :startTime")
+    List<Appointment> findByUserIdAndStartTimeBefore(@Param("userId") Long userId, @Param("startTime") LocalDateTime startTime);
 }

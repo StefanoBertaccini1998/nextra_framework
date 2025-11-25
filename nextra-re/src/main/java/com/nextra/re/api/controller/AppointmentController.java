@@ -353,8 +353,8 @@ public class AppointmentController extends BaseController<Appointment, Long> {
     private AppointmentDTO toDTO(Appointment appointment) {
         return AppointmentDTO.builder()
                 .id(appointment.getId())
-                .userId(appointment.getUser().getId())
-                .username(appointment.getUser().getUsername())
+                .userId(appointment.getUser() != null ? appointment.getUser().getId() : null)
+                .username(appointment.getUser() != null ? appointment.getUser().getUsername() : null)
                 .clientId(appointment.getClient() != null ? appointment.getClient().getId() : null)
                 .clientName(appointment.getClient() != null ? appointment.getClient().getName() : null)
                 .propertyId(appointment.getProperty() != null ? appointment.getProperty().getId() : null)

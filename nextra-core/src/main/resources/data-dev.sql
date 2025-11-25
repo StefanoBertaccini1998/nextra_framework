@@ -8,13 +8,14 @@ INSERT INTO roles (id, name) VALUES
 
 -- ====================================================
 -- USERS: Test users with encrypted passwords
--- Password: "password" -> BCrypt hash
+-- admin -> password: "admin" (BCrypt)
+-- mario, anna, lowuser -> password: "password" (BCrypt)
 -- ====================================================
 INSERT INTO users (id, username, password, email, active, created_at, updated_at, created_by, updated_by) VALUES
-  (1, 'admin', '$2a$10$E9LsEoEZv4mHMB8Xz7hq6OHbOh.9xFZ1R1Yv.5E5k3Vy5Z9sD8Y9.', 'admin@nextra.com', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system'),
-  (2, 'mario', '$2a$10$E9LsEoEZv4mHMB8Xz7hq6OHbOh.9xFZ1R1Yv.5E5k3Vy5Z9sD8Y9.', 'mario@nextra.com', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system'),
-  (3, 'anna', '$2a$10$E9LsEoEZv4mHMB8Xz7hq6OHbOh.9xFZ1R1Yv.5E5k3Vy5Z9sD8Y9.', 'anna@nextra.com', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system'),
-  (4, 'lowuser', '$2a$10$E9LsEoEZv4mHMB8Xz7hq6OHbOh.9xFZ1R1Yv.5E5k3Vy5Z9sD8Y9.', 'lowuser@nextra.com', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system');
+  (1, 'admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', 'admin@nextra.com', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system'),
+  (2, 'mario', '$2a$10$N9qo.slLXP9Q9GpZ0S2IIO2vlXP9Q9GpZ0S2IIO2vlXP9Q9GpZ0S2I', 'mario@nextra.com', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system'),
+  (3, 'anna', '$2a$10$N9qo.slLXP9Q9GpZ0S2IIO2vlXP9Q9GpZ0S2IIO2vlXP9Q9GpZ0S2I', 'anna@nextra.com', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system'),
+  (4, 'lowuser', '$2a$10$N9qo.slLXP9Q9GpZ0S2IIO2vlXP9Q9GpZ0S2IIO2vlXP9Q9GpZ0S2I', 'lowuser@nextra.com', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system');
 
 -- ====================================================
 -- USER_ROLES: Assign roles to users

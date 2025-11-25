@@ -81,6 +81,7 @@ application-*.properties
 *.mv.db
 *.trace.db
 db-data/
+data/
 .cache/
 tmp/
 *.lock
