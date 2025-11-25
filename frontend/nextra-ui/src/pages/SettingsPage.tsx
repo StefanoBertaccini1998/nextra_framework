@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Button } from '@nextra/ui-lib';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../hooks/redux';
+import { logout } from '../store/slices/authSlice';
 import {
   BellIcon,
   UserCircleIcon,
@@ -77,12 +79,25 @@ export const SettingsPage: React.FC = () => {
 
   const [activeSection, setActiveSection] = React.useState('account');
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (location.state?.section) {
       setActiveSection(location.state.section);
     }
   }, [location.state]);
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout()).unwrap();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Even if logout fails, redirect to login
+      navigate('/login');
+    }
+  };
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -91,7 +106,10 @@ export const SettingsPage: React.FC = () => {
           <h1 className="text-2xl font-semibold text-text">Settings</h1>
           <p className="text-text-secondary mt-1">Manage your account and application settings</p>
         </div>
-        <Button variant="primary">Save Changes</Button>
+        <div className="flex gap-2">
+          <Button variant="primary">Save Changes</Button>
+          <Button variant="secondary" onClick={handleLogout}>Logout</Button>
+        </div>
       </div>
 
       <div className="flex gap-6 flex-1 min-h-0 p-6">

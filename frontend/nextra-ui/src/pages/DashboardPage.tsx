@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { LoadingScreen, useToast, Button, OffCanvas } from '@nextra/ui-lib';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/redux';
 import { PropertyForm } from '../components/forms/PropertyForm';
 import { ClientForm } from '../components/forms/ClientForm';
+import { logout } from '../store/slices/authSlice';
 import {
   createProperty as createPropertyThunk,
   uploadPropertyImages,
@@ -21,6 +23,7 @@ export const DashboardPage: React.FC = () => {
   const [showCreatePropertyModal, setShowCreatePropertyModal] = useState(false);
   const [showCreateClientModal, setShowCreateClientModal] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { addToast } = useToast();
 
   useEffect(() => {
@@ -63,6 +66,17 @@ export const DashboardPage: React.FC = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout()).unwrap();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Even if logout fails, redirect to login
+      navigate('/login');
+    }
+  };
+
   return (
     <>
       <LoadingScreen isLoading={isLoading} message="Loading dashboard..." />
@@ -76,10 +90,13 @@ export const DashboardPage: React.FC = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
-          className="flex items-center gap-4"
+          className="flex items-center gap-4 justify-between"
         >
-          <img src="/assets/logo/icon/nextra-icon.svg" alt="Nextra" className="w-8 h-8" />
-          <h1 className="text-2xl font-semibold text-text">Dashboard</h1>
+          <div className="flex items-center gap-4">
+            <img src="/assets/logo/icon/nextra-icon.svg" alt="Nextra" className="w-8 h-8" />
+            <h1 className="text-2xl font-semibold text-text">Dashboard</h1>
+          </div>
+          <Button variant="secondary" onClick={handleLogout}>Logout</Button>
         </motion.div>
 
         <motion.div

@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @ComponentScan(basePackages = {
         "com.nextra.re",
-        "com.nextra.core" // include core beans, but not duplicate @EnableJpaAuditing
-})
+        "com.nextra.core", // include core beans, but not duplicate @EnableJpaAuditing
+        "com.nextra.core.config"  
+    })
 @EnableJpaRepositories(basePackages = {
         "com.nextra.re",
         "com.nextra.core.persistence",
@@ -17,6 +18,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 public class NextraReApplication {
     public static void main(String[] args) {
-        SpringApplication.run(NextraReApplication.class, args);
+           var ctx = SpringApplication.run(NextraReApplication.class, args);
+           // Log all ApplicationRunner beans present
+           String[] runnerBeans = ctx.getBeanNamesForType(org.springframework.boot.ApplicationRunner.class);
+           System.out.println("[Startup] ApplicationRunner beans present:");
+           for (String bean : runnerBeans) {
+              System.out.println(" - " + bean + " (" + ctx.getBean(bean).getClass().getName() + ")");
+           }
     }
 }

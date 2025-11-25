@@ -13,12 +13,12 @@ interface RouteGuardProps {
 }
 
 const PrivateRoute: React.FC<RouteGuardProps> = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('isLoggedIn') === 'true';
+  const isAuthenticated = !!localStorage.getItem('auth_token');
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
 const PublicRoute: React.FC<RouteGuardProps> = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('isLoggedIn') === 'true';
+  const isAuthenticated = !!localStorage.getItem('auth_token');
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <>{children}</>;
 };
 
