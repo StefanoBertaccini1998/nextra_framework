@@ -121,7 +121,7 @@ export const fetchAppointmentsByDateRange = createAsyncThunk(
     'appointments/fetchByDateRange',
     async (params: { startDate: string; endDate: string }) => {
         const response = await apiClient.get<ApiResponse<Appointment[]>>(
-            `/appointments/between?startDate=${params.startDate}&endDate=${params.endDate}`
+            `/appointments/range?start=${params.startDate}&end=${params.endDate}`
         );
         return response.data;
     }

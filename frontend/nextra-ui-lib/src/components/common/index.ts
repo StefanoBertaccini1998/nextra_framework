@@ -4,6 +4,8 @@ export { default as DataTable } from './DataTable';
 export { ThemedInput } from './ThemedInput';
 export type { ThemedInputProps } from './ThemedInput';
 export { default as DetailView } from './DetailView';
+export { ErrorAlert } from './ErrorAlert';
+export type { ErrorAlertProps } from './ErrorAlert';
 export { default as Form } from './Form';
 export { Form as DynamicForm } from './DynamicForm';
 export type { FormField, FormProps, FieldType } from './DynamicForm';

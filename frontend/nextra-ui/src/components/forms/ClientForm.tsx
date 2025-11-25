@@ -1,5 +1,5 @@
 import { useState, type FormEvent, type ChangeEvent } from 'react';
-import { Button, ThemedInput, FormSection } from '@nextra/ui-lib';
+import { Button, ThemedInput, FormSection, ErrorAlert } from '@nextra/ui-lib';
 import type { Client } from '../../store/slices/clientsSlice';
 
 interface ClientFormProps {
@@ -17,6 +17,7 @@ export function ClientForm({ initialValues, onSubmit, onCancel, loading: externa
   const [formData, setFormData] = useState<Partial<Client>>(initialValues || {});
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<any>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -62,10 +63,15 @@ export function ClientForm({ initialValues, onSubmit, onCancel, loading: externa
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
+    
     if (validateForm()) {
       setIsSubmitting(true);
       try {
         await onSubmit(formData);
+      } catch (error) {
+        console.error('Client form submission error:', error);
+        setSubmitError(error);
       } finally {
         setIsSubmitting(false);
       }
@@ -76,6 +82,15 @@ export function ClientForm({ initialValues, onSubmit, onCancel, loading: externa
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Error Alert */}
+      {submitError && (
+        <ErrorAlert
+          title="Failed to save client"
+          error={submitError}
+          onDismiss={() => setSubmitError(null)}
+        />
+      )}
+
       {/* Basic Information Section */}
       <FormSection title="Basic Information">
           {/* Full Name - Full Width */}

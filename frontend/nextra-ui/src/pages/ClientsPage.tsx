@@ -140,7 +140,10 @@ export function ClientsPage() {
         )}
 
         {selectedClient && (
-          <DetailView title="Client Details">
+          <DetailView 
+            title="Client Details"
+            onClose={() => dispatch(setSelectedClient(null))}
+          >
             <div className="space-y-3">
               <div><strong>Name:</strong> {selectedClient.name}</div>
               <div><strong>Email:</strong> {selectedClient.email}</div>
@@ -157,11 +160,10 @@ export function ClientsPage() {
               <div className="flex gap-2 pt-3">
                 <Button variant="primary" size="sm">Edit</Button>
                 <Button
-                  variant="primary"
+                  variant="danger"
                   size="sm"
                   onClick={handleDeleteClient}
                   disabled={loading}
-                  className="text-error hover:bg-error/10"
                 >
                   Delete
                 </Button>

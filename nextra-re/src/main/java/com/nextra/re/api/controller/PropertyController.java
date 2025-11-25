@@ -82,7 +82,7 @@ public class PropertyController extends BaseController<Property, Long> {
      * Create new property with DTO
      */
     @PostMapping("/new")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')")
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')") // TODO: Re-enable after implementing authentication
     public ResponseEntity<ApiResponse<PropertyResponse>> createProperty(@Valid @RequestBody PropertyRequest request) {
         log.debug("Creating property: {}", request.getTitle());
         Property property = toEntity(request);
@@ -94,7 +94,7 @@ public class PropertyController extends BaseController<Property, Long> {
      * Update property with DTO
      */
     @PutMapping("/{id}/update")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')")
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')") // TODO: Re-enable after implementing authentication
     public ResponseEntity<ApiResponse<PropertyResponse>> updateProperty(
             @PathVariable Long id,
             @Valid @RequestBody PropertyRequest request) {

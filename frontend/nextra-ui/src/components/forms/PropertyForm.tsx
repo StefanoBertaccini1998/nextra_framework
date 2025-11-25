@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ImageUpload, Button, ThemedInput, FormSection } from '@nextra/ui-lib';
+import { useState } from 'react';
+import { Button, ThemedInput, FormSection, ImageUpload, ErrorAlert } from '@nextra/ui-lib';
 import type { Property } from '../../store/slices/propertiesSlice';
 
 interface PropertyFormProps {
@@ -13,6 +13,7 @@ export function PropertyForm({ initialValues, onSubmit, onCancel }: Readonly<Pro
   const [formData, setFormData] = useState<Partial<Property>>(initialValues || {});
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitError, setSubmitError] = useState<any>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -49,13 +50,16 @@ export function PropertyForm({ initialValues, onSubmit, onCancel }: Readonly<Pro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
+    
     if (!validate()) return;
 
     setIsSubmitting(true);
     try {
       await onSubmit(formData, imageFiles.length > 0 ? imageFiles : undefined);
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error('Property form submission error:', error);
+      setSubmitError(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -63,6 +67,15 @@ export function PropertyForm({ initialValues, onSubmit, onCancel }: Readonly<Pro
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Error Alert */}
+      {submitError && (
+        <ErrorAlert
+          title="Failed to save property"
+          error={submitError}
+          onDismiss={() => setSubmitError(null)}
+        />
+      )}
+
       {/* Basic Information Section */}
       <FormSection title="Basic Information">
           {/* Title - Full Width */}

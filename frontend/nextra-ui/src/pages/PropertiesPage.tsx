@@ -208,7 +208,7 @@ export function PropertiesPage() {
                   </div>
 
                   <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-                    <div className="text-xl font-bold text-blue-600">
+                    <div className="text-xl font-bold" style={{ color: 'var(--color-primary)' }}>
                       €{property.price ? property.price.toLocaleString() : '0'}
                     </div>
                     <Button

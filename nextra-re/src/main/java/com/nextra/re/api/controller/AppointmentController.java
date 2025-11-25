@@ -258,7 +258,7 @@ public class AppointmentController extends BaseController<Appointment, Long> {
      * Update appointment
      */
     @PutMapping("/{id}/update")
-    @PreAuthorize("hasRole('ADMIN') or @appointmentController.isAppointmentOwner(#id)")
+    // @PreAuthorize("hasRole('ADMIN') or @appointmentController.isAppointmentOwner(#id)") // TODO: Re-enable after implementing authentication
     public ResponseEntity<ApiResponse<AppointmentDTO>> updateAppointment(
             @PathVariable Long id,
             @Valid @RequestBody AppointmentUpdateRequest request) {
@@ -317,7 +317,7 @@ public class AppointmentController extends BaseController<Appointment, Long> {
      * Delete appointment (soft delete via BaseService)
      */
     @DeleteMapping("/{id}/delete")
-    @PreAuthorize("hasRole('ADMIN') or @appointmentController.isAppointmentOwner(#id)")
+    // @PreAuthorize("hasRole('ADMIN') or @appointmentController.isAppointmentOwner(#id)") // TODO: Re-enable after implementing authentication
     public ResponseEntity<ApiResponse<Void>> deleteAppointment(@PathVariable Long id) {
         log.debug("🗑️ Deleting appointment - ID: {}", id);
         

@@ -71,7 +71,27 @@ export const fetchPropertyById = createAsyncThunk<Property, number>(
 export const createProperty = createAsyncThunk<Property, Partial<Property>>(
   'properties/createProperty',
   async (propertyData: Partial<Property>) => {
-    const response = await apiClient.post<{ data: Property }>('/properties', propertyData);
+    // Map Property to PropertyRequest DTO expected by backend
+    const requestData = {
+      title: propertyData.title,
+      location: propertyData.location,
+      address: propertyData.address,
+      price: propertyData.price,
+      size: propertyData.size,
+      description: propertyData.description,
+      propertyType: propertyData.propertyType,
+      status: propertyData.status,
+      bedrooms: propertyData.bedrooms,
+      bathrooms: propertyData.bathrooms,
+      floors: propertyData.floors,
+      yearBuilt: propertyData.yearBuilt,
+      features: propertyData.features,
+      images: propertyData.images,
+      mainImage: propertyData.mainImage,
+      ownerId: (propertyData as any).ownerId || null,
+      categoryId: (propertyData as any).categoryId || null,
+    };
+    const response = await apiClient.post<{ data: Property }>('/properties/new', requestData);
     // Backend returns ApiResponse<Property>
     return response.data;
   }
@@ -80,7 +100,27 @@ export const createProperty = createAsyncThunk<Property, Partial<Property>>(
 export const updateProperty = createAsyncThunk<Property, { id: number; data: Partial<Property> }>(
   'properties/updateProperty',
   async ({ id, data }: { id: number; data: Partial<Property> }) => {
-    const response = await apiClient.put<{ data: Property }>(`/properties/${id}`, data);
+    // Map Property to PropertyRequest DTO expected by backend
+    const requestData = {
+      title: data.title,
+      location: data.location,
+      address: data.address,
+      price: data.price,
+      size: data.size,
+      description: data.description,
+      propertyType: data.propertyType,
+      status: data.status,
+      bedrooms: data.bedrooms,
+      bathrooms: data.bathrooms,
+      floors: data.floors,
+      yearBuilt: data.yearBuilt,
+      features: data.features,
+      images: data.images,
+      mainImage: data.mainImage,
+      ownerId: (data as any).ownerId || null,
+      categoryId: (data as any).categoryId || null,
+    };
+    const response = await apiClient.put<{ data: Property }>(`/properties/${id}/update`, requestData);
     // Backend returns ApiResponse<Property>
     return response.data;
   }

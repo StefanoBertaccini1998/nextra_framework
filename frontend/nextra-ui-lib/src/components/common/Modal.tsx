@@ -8,6 +8,17 @@ type Props = {
   children?: React.ReactNode;
 };
 
+/**
+ * Modal - Unified centered overlay component with backdrop blur
+ * 
+ * Features:
+ * - Centered, not full width/height (max-w-4xl, max-h-90vh)
+ * - Backdrop blur (bg-black/60 backdrop-blur-sm)
+ * - Blocks interaction with content behind (z-[9999])
+ * - Prevents clicking on AiHelper when open
+ * - ESC key to close
+ * - Body scroll lock when open
+ */
 export default function Modal({ open, onClose, title, children }: Props) {
   const modalRoot = useRef<HTMLDivElement | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement | null>(null);
@@ -31,6 +42,23 @@ export default function Modal({ open, onClose, title, children }: Props) {
       document.body.style.overflow = '';
     };
   }, [open]);
+
+  useEffect(() => {
+    // ESC key handler
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) {
+        onClose?.();
+      }
+    };
+
+    if (open) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [open, onClose]);
 
   useEffect(() => {
     // Apply webkit scrollbar styles
@@ -62,19 +90,29 @@ export default function Modal({ open, onClose, title, children }: Props) {
 
   const modalContent = (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <button
-        type="button"
-        className="absolute inset-0 z-0 bg-black/60 backdrop-blur-sm cursor-default"
+      {/* Backdrop - Blurs background and blocks interaction with AiHelper */}
+      <div
+        className="absolute inset-0 z-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
+        role="button"
+        tabIndex={0}
         onKeyDown={(e) => e.key === 'Escape' && onClose?.()}
         aria-label="Close modal"
       />
 
-      {/* Modal Content */}
-      <div className="rounded-lg shadow-2xl z-50 w-full max-w-4xl max-h-[90vh] flex flex-col relative" style={{ backgroundColor: 'var(--color-surface)' }}>
+      {/* Modal Content - Fixed 60% width, max 90vh height */}
+      <div 
+        className="rounded-lg shadow-2xl z-50 flex flex-col relative" 
+        style={{ 
+          backgroundColor: 'var(--color-surface)',
+          width: '60vw',
+          minWidth: '320px',
+          maxWidth: '1200px',
+          maxHeight: '90vh'
+        }}
+      >
         {/* Header with primary color */}
-        <div className="flex items-center justify-between px-6 py-4 rounded-t-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+        <div className="flex items-center justify-between px-6 py-4 rounded-t-lg flex-shrink-0" style={{ backgroundColor: 'var(--color-primary)' }}>
           <h3 className="text-xl font-semibold" style={{ color: 'white' }}>{title}</h3>
           <button
             onClick={onClose}
@@ -82,18 +120,24 @@ export default function Modal({ open, onClose, title, children }: Props) {
             aria-label="Close modal"
           >
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
 
-        {/* Body - Scrollable */}
+        {/* Body - Scrollable with auto height */}
         <div
           ref={scrollAreaRef}
-          className="flex-1 overflow-y-auto px-6 py-4 modal-scroll-area"
+          className="overflow-y-auto px-6 py-4 modal-scroll-area"
           style={{
             scrollbarWidth: 'thin',
-            scrollbarColor: 'var(--color-border) transparent'
+            scrollbarColor: 'var(--color-border) transparent',
+            maxHeight: 'calc(90vh - 80px)' // 80px for header
           }}
         >
           {children}

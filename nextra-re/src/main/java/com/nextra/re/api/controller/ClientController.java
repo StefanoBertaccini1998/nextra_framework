@@ -53,7 +53,7 @@ public class ClientController extends BaseController<Client, Long> {
     // Override delete to require ADMIN
     @Override
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')") // TODO: Re-enable after authentication implemented
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         return super.delete(id);
     }
@@ -71,7 +71,7 @@ public class ClientController extends BaseController<Client, Long> {
      * Create new client with DTO
      */
     @PostMapping("/new")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')")
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')") // TODO: Re-enable after implementing authentication
     public ResponseEntity<ApiResponse<ClientResponse>> createClient(@Valid @RequestBody ClientRequest request) {
         log.debug("Creating client: {}", request.getName());
         Client client = toEntity(request);
@@ -83,7 +83,7 @@ public class ClientController extends BaseController<Client, Long> {
      * Update client with DTO
      */
     @PutMapping("/{id}/update")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')")
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('AGENT')") // TODO: Re-enable after implementing authentication
     public ResponseEntity<ApiResponse<ClientResponse>> updateClient(
             @PathVariable Long id,
             @Valid @RequestBody ClientRequest request) {

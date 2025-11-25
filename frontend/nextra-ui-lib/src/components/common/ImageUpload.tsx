@@ -160,7 +160,7 @@ export function ImageUpload({
   return (
     <div className="space-y-3">
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium" style={{ color: 'var(--color-textSecondary)' }}>
           {label}
         </label>
       )}
@@ -170,9 +170,13 @@ export function ImageUpload({
         type="button"
         className={`
           w-full relative border-2 border-dashed rounded-lg p-6 transition-colors
-          ${dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}
-          ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-blue-400'}
+          ${dragActive ? 'border-gray-400' : ''}
+          ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-gray-400'}
         `}
+        style={{
+          borderColor: dragActive ? 'var(--color-border)' : 'var(--color-border)',
+          backgroundColor: dragActive ? 'var(--color-surface-hover)' : 'transparent'
+        }}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}

@@ -97,7 +97,28 @@ export const fetchClients = createAsyncThunk<
 export const createClient = createAsyncThunk<Client, Omit<Client, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'deleted'>>(
   'clients/createClient',
   async (clientData) => {
-    const response = await apiClient.post<ApiResponse<Client>>('/clients', clientData);
+    // Map Client to ClientRequest DTO expected by backend
+    const requestData: any = {
+      name: clientData.name,
+      email: clientData.email,
+      phone: clientData.phone,
+      fiscalId: clientData.fiscalId,
+      address: clientData.address,
+      preferredBudgetMin: clientData.preferredBudgetMin,
+      preferredBudgetMax: clientData.preferredBudgetMax,
+      preferredLocations: clientData.preferredLocations,
+      preferredPropertyTypes: clientData.preferredPropertyTypes,
+      preferredSizeMin: clientData.preferredSizeMin,
+      preferredSizeMax: clientData.preferredSizeMax,
+      notes: clientData.notes,
+    };
+
+    // Only include assignedAgentId if it exists
+    if (clientData.assignedAgent && typeof clientData.assignedAgent === 'object' && 'id' in clientData.assignedAgent) {
+      requestData.assignedAgentId = clientData.assignedAgent.id;
+    }
+
+    const response = await apiClient.post<ApiResponse<Client>>('/clients/new', requestData);
     return response.data;
   }
 );
@@ -105,7 +126,28 @@ export const createClient = createAsyncThunk<Client, Omit<Client, 'id' | 'create
 export const updateClient = createAsyncThunk<Client, { id: number; data: Partial<Client> }>(
   'clients/updateClient',
   async ({ id, data }) => {
-    const response = await apiClient.put<ApiResponse<Client>>(`/clients/${id}`, data);
+    // Map Client to ClientRequest DTO expected by backend
+    const requestData: any = {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      fiscalId: data.fiscalId,
+      address: data.address,
+      preferredBudgetMin: data.preferredBudgetMin,
+      preferredBudgetMax: data.preferredBudgetMax,
+      preferredLocations: data.preferredLocations,
+      preferredPropertyTypes: data.preferredPropertyTypes,
+      preferredSizeMin: data.preferredSizeMin,
+      preferredSizeMax: data.preferredSizeMax,
+      notes: data.notes,
+    };
+
+    // Only include assignedAgentId if it exists
+    if (data.assignedAgent && typeof data.assignedAgent === 'object' && 'id' in data.assignedAgent) {
+      requestData.assignedAgentId = data.assignedAgent.id;
+    }
+
+    const response = await apiClient.put<ApiResponse<Client>>(`/clients/${id}/update`, requestData);
     return response.data;
   }
 );
